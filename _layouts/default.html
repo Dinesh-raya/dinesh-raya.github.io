@@ -56,41 +56,6 @@
     nav a:hover {
       opacity: 1;
     }
-    nav .nav-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      padding: 8px;
-      margin-right: 12px;
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-      nav .nav-links {
-        display: none;
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: #000;
-        flex-direction: column;
-        padding: 20px 40px;
-        gap: 16px;
-        z-index: 999;
-      }
-      nav .nav-links.open {
-        display: flex;
-      }
-    }
 
     footer {
       background: #000;
@@ -121,16 +86,7 @@
 
   <header>
     <nav>
-      <div style="display:flex;align-items:center;">
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 12H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 6H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 18H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <a href="/"><img src="/raya.svg" alt="RAYA" style="height:32px;display:block"></a>
-      </div>
+      <a href="/"><img src="/raya.svg" alt="RAYA" style="height:32px;display:block"></a>
     </nav>
   </header>
 
@@ -145,12 +101,6 @@
     <a href="/terms/">Terms &amp; Conditions</a>
     <span>&copy; {{ site.time | date: '%Y' }} {{ site.title }}</span>
   </footer>
-
-  <script>
-    document.getElementById('menuToggle')?.addEventListener('click', function() {
-      document.getElementById('navLinks').classList.toggle('open');
-    });
-  </script>
 
 </body>
 </html>
