@@ -2,7 +2,7 @@ backend:
   name: github
   repo: yourusername/yourusername.github.io # Put your actual username here
   branch: main
-  base_url: https://your-free-oauth-gate.com # We will link your free login key here
+  base_url: github-oauth-gate.dineshraya365.workers.dev # We will link your free login key here
 
 media_folder: "assets/images"
 public_folder: "/assets/images"

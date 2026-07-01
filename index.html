@@ -1,0 +1,17 @@
+---
+layout: default
+title: Home
+---
+
+<!-- Row 1: Main Content Section -->
+<div class="card-row">
+  {% for post in site.posts %}
+    <a href="{{ post.url }}" class="item-card">
+      <div class="icon-box">📝</div>
+      <div class="card-title">{{ post.title }}</div>
+      {% if post.new %}
+        <span class="badge">NEW</span>
+      {% endif %}
+    </a>
+  {% endfor %}
+</div>
