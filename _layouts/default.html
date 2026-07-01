@@ -74,15 +74,72 @@
       margin-top: 6px;
       text-transform: uppercase;
     }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    nav a:hover {
+      opacity: 1;
+    }
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    footer {
+      border-top: 1px solid #eef1f4;
+      margin-top: 60px;
+      padding: 24px 0 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+    footer a {
+      color: #666;
+      text-decoration: none;
+      margin: 0 12px;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: #111;
+    }
   </style>
 </head>
 <body>
 
-  <header>{{ site.title }}</header>
+  <header>
+    <nav>
+      <a href="/" class="site-title"><img src="/raya.svg" alt="RAYA" style="height:32px;display:block"></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/admin/">Manage</a>
+      </div>
+    </nav>
+  </header>
 
   <div class="container">
     {{ content }}
   </div>
+
+  <footer>
+    <a href="/">Home</a>
+    <a href="/admin/">Admin</a>
+    <a href="/about/">About</a>
+    <a href="/contact/">Contact</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="/terms/">Terms</a>
+    <span>&copy; {{ site.time | date: '%Y' }} {{ site.title }}</span>
+  </footer>
 
 </body>
 </html>

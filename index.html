@@ -10,7 +10,6 @@ title: Home
     <title>RAYA Learning</title>
     <style>
         body {font-family:Arial,sans-serif;background:#fff;color:#202124;margin:0;padding:40px 20px;}
-        h1 {text-align:center;margin-bottom:40px;font-size:2.8em;}
         .cards {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;max-width:1200px;margin:0 auto;}
         .card {background:white;border:1px solid #ddd;padding:30px;border-radius:12px;transition:all .3s;cursor:pointer;text-align:center;}
         .card:hover {box-shadow:0 10px 30px rgba(0,0,0,.12);transform:translateY(-6px);}
@@ -18,7 +17,6 @@ title: Home
     </style>
 </head>
 <body>
-    <h1>RAYA Learning</h1>
     <div class="cards">
         <!-- Your Manual Static Cards -->
         <div class="card" onclick="window.location='/sql-projects'">
@@ -26,9 +24,14 @@ title: Home
             <h3>SQL 50 Projects</h3>
             <p>Real World YouTube Data</p>
         </div>
-        <div class="card">
+        <div class="card" onclick="window.location='/claude-leak/'">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Claude_AI_symbol.svg">
             <h3>Claude Leak</h3>
+        </div>
+        <div class="card" onclick="window.location='/cheatsheet/'">
+            <img src="https://storage.googleapis.com/imy-bucket-prod/icons/page.png">
+            <h3>Cheatsheet</h3>
+            <p>Excel &middot; Power BI &middot; Tableau &middot; SQL</p>
         </div>
 
         <!-- Dynamic Blog Post Cards (They will match your custom styling seamlessly!) -->
