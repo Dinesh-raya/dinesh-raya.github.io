@@ -139,12 +139,7 @@ title: Home
         <h3>Cheatsheet</h3>
       </div>
     </a>
-  </div>
-</div>
-
-{% for post in site.posts %}
-<div class="section-wrap">
-  <div class="course-grid">
+    {% for post in site.posts %}
     <a class="course-card" href="{{ post.url }}">
       <div class="course-card-inner">
         <div class="icon-container">
@@ -153,6 +148,6 @@ title: Home
         <h3>{{ post.title }}</h3>
       </div>
     </a>
+    {% endfor %}
   </div>
 </div>
-{% endfor %}
