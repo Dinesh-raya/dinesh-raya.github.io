@@ -9,11 +9,11 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     padding: 0 16px;
   }
   .section-wrap {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 32px;
-    background-color: #fdfdfd;
+    background-color: var(--surface-alt);
     box-sizing: border-box;
   }
   .course-grid {
@@ -29,10 +29,10 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     height: 100%;
   }
   .course-card-inner {
-    background: white;
+    background: var(--surface);
     padding: 24px 16px;
     border-radius: 20px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-light);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,13 +41,13 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     box-sizing: border-box;
     justify-content: flex-start;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: var(--card-shadow);
     transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
   .course-card-inner:hover {
-    border-color: #000;
+    border-color: var(--text);
     transform: translateY(-2px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.05);
+    box-shadow: var(--card-shadow-hover);
   }
   .card-content {
     display: flex;
@@ -67,7 +67,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
+    background: var(--icon-bg);
     border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
@@ -82,7 +82,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     margin: 0;
     font-weight: 600;
     line-height: 1.4;
-    color: #111827;
+    color: var(--h3-card-color);
     word-break: break-word;
     white-space: normal;
     padding: 0 4px;

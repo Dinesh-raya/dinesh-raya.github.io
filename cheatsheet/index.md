@@ -14,8 +14,8 @@ description: Free cheatsheets for Excel, Power BI, Tableau, and SQL — 250+ for
     margin: 40px auto;
   }
   .cheatsheet-card {
-    background: #fff;
-    border: 1px solid #eef2f6;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
     border-radius: 16px;
     padding: 32px 24px;
     text-align: center;
@@ -40,7 +40,7 @@ description: Free cheatsheets for Excel, Power BI, Tableau, and SQL — 250+ for
   .cheatsheet-card p {
     margin: 0;
     font-size: 14px;
-    color: #666;
+    color: var(--text-muted);
   }
   h1 {
     text-align: center;
@@ -50,7 +50,7 @@ description: Free cheatsheets for Excel, Power BI, Tableau, and SQL — 250+ for
 </style>
 
 <h1>Cheatsheet</h1>
-<p style="text-align:center;color:#666;margin-bottom:8px;">Select a subject to start learning.</p>
+<p style="text-align:center;color:var(--text-muted);margin-bottom:8px;">Select a subject to start learning.</p>
 
 <div class="cheatsheet-grid">
   <a class="cheatsheet-card" href="/excel-250-formulas/">

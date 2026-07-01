@@ -16,7 +16,7 @@ description: Learn about the 2026 Claude Code source code leak — what happened
   }
   .article .meta {
     font-size: 14px;
-    color: #888;
+    color: var(--text-light);
     margin-bottom: 32px;
   }
   .article h2 {
@@ -30,7 +30,7 @@ description: Learn about the 2026 Claude Code source code leak — what happened
   .article p {
     font-size: 17px;
     line-height: 1.7;
-    color: #333;
+    color: var(--text-secondary);
     margin-bottom: 20px;
   }
   .article ul {
@@ -40,22 +40,22 @@ description: Learn about the 2026 Claude Code source code leak — what happened
   .article li {
     font-size: 17px;
     line-height: 1.7;
-    color: #333;
+    color: var(--text-secondary);
     margin-bottom: 8px;
   }
   .article blockquote {
     margin: 24px 0;
     padding: 16px 24px;
-    border-left: 4px solid #000;
-    background: #f8f8f8;
+    border-left: 4px solid var(--text);
+    background: var(--blockquote-bg);
     border-radius: 0 8px 8px 0;
   }
   .article blockquote p {
     margin-bottom: 0;
-    color: #555;
+    color: var(--blockquote-color);
   }
   .article a {
-    color: #000;
+    color: var(--link-color);
     text-decoration: underline;
     text-underline-offset: 2px;
   }

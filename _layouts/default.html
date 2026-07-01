@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
+  <script>
+    (function(){var s=localStorage.getItem('raya-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark')}})();
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ site.title }}</title>
@@ -16,10 +19,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-color: #F3F3F3;
-      --card-bg: #ffffff;
-      --text-main: #111111;
+      --bg: #F3F3F3;
+      --surface: #ffffff;
+      --surface-alt: #fdfdfd;
+      --text: #111111;
+      --text-secondary: #333333;
+      --text-muted: #666666;
+      --text-light: #888888;
+      --border: #dddddd;
+      --border-light: #eeeeee;
+      --card-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      --card-shadow-hover: 0 8px 12px rgba(0,0,0,0.05);
+      --inline-code-bg: #f0f0f0;
+      --blockquote-bg: #f8f8f8;
+      --blockquote-color: #555555;
+      --table-header-bg: #f8f8f8;
+      --table-border: #e0e0e0;
+      --h3-card-color: #111827;
+      --icon-bg: #ffffff;
+      --copyright-color: #666666;
+      --footer-link: #cccccc;
+      --back-link: #666666;
+      --back-link-hover: #111111;
+      --link-color: #000000;
+      --hr-color: #eeeeee;
       --border-radius: 20px;
+      --toggle-bg: #333333;
+    }
+    [data-theme="dark"] {
+      --bg: #121212;
+      --surface: #1e1e1e;
+      --surface-alt: #252525;
+      --text: #e0e0e0;
+      --text-secondary: #cccccc;
+      --text-muted: #999999;
+      --text-light: #aaaaaa;
+      --border: #444444;
+      --border-light: #555555;
+      --card-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      --card-shadow-hover: 0 8px 12px rgba(0,0,0,0.4);
+      --inline-code-bg: #2a2a2a;
+      --blockquote-bg: #1e1e1e;
+      --blockquote-color: #aaaaaa;
+      --table-header-bg: #2a2a2a;
+      --table-border: #444444;
+      --h3-card-color: #e0e0e0;
+      --icon-bg: #2a2a2a;
+      --copyright-color: #888888;
+      --footer-link: #999999;
+      --back-link: #aaaaaa;
+      --back-link-hover: #ffffff;
+      --link-color: #80b4ff;
+      --hr-color: #444444;
+      --toggle-bg: #555555;
     }
     * {
       -webkit-tap-highlight-color: transparent;
@@ -27,8 +79,8 @@
     body {
       margin: 0;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -52,7 +104,7 @@
       align-items: center;
       justify-content: space-between;
     }
-    nav a {
+    nav a, .theme-toggle {
       color: #fff;
       text-decoration: none;
       font-size: 16px;
@@ -60,8 +112,28 @@
       opacity: 0.8;
       transition: opacity 0.2s;
     }
-    nav a:hover {
+    nav a:hover, .theme-toggle:hover {
       opacity: 1;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .back-nav {
+      margin-bottom: 24px;
+    }
+    .back-nav a {
+      color: var(--back-link);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .back-nav a:hover {
+      color: var(--back-link-hover);
     }
 
     footer {
@@ -71,7 +143,7 @@
       font-size: 14px;
     }
     footer a {
-      color: #ccc;
+      color: var(--footer-link);
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -86,8 +158,11 @@
         flex-wrap: wrap;
         gap: 8px;
       }
-      nav a {
+      nav a, .theme-toggle {
         font-size: 14px;
+      }
+      .theme-toggle {
+        font-size: 16px;
       }
       footer {
         padding: 20px 10px;
@@ -103,14 +178,21 @@
   <header>
     <nav>
       <a href="/"><img src="/raya.svg" alt="RAYA" style="height:40px;display:block"></a>
-      <div style="display:flex;align-items:center;gap:24px;">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <a href="/">Home</a>
         <a href="/cheatsheet/">Cheatsheet</a>
         <a href="/claude-leak/">Claude Leak</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#9790;</button>
       </div>
     </nav>
   </header>
 
   <div class="container">
+    {% unless page.url == '/' %}
+    <div class="back-nav">
+      <a href="#" onclick="history.back(); return false;">&larr; Back</a>
+    </div>
+    {% endunless %}
     {{ content }}
   </div>
 
@@ -121,10 +203,33 @@
       <a href="/privacy/">Privacy Policy</a>
       <a href="/terms/">Terms &amp; Conditions</a>
     </div>
-    <div style="text-align: center; margin-top: 10px; color: #666; font-size: 0.8rem;">
+    <div style="text-align: center; margin-top: 10px; color: var(--copyright-color); font-size: 0.8rem;">
       &copy; {{ site.time | date: '%Y' }} {{ site.title }}
     </div>
   </footer>
+
+  <script>
+    (function() {
+      var html = document.documentElement;
+      var stored = localStorage.getItem('raya-theme');
+      if (stored === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+      }
+      var btn = document.getElementById('themeToggle');
+      if (btn) {
+        btn.addEventListener('click', function() {
+          var isDark = html.getAttribute('data-theme') === 'dark';
+          if (isDark) {
+            html.removeAttribute('data-theme');
+            localStorage.setItem('raya-theme', 'light');
+          } else {
+            html.setAttribute('data-theme', 'dark');
+            localStorage.setItem('raya-theme', 'dark');
+          }
+        });
+      }
+    })();
+  </script>
 
 </body>
 </html>
