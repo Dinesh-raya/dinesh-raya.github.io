@@ -54,22 +54,22 @@ description: Free cheatsheets for Excel, Power BI, Tableau, and SQL — 250+ for
 
 <div class="cheatsheet-grid">
   <a class="cheatsheet-card" href="/excel-250-formulas/">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Microsoft_Office_Excel_%282019%E2%80%932025%29.svg/960px-Microsoft_Office_Excel_%282019%E2%80%932025%29.svg.png" alt="Excel">
+    <img src="/assets/images/excel-icon.svg" alt="Excel">
     <h3>Excel 250+ Formulas</h3>
   </a>
 
   <a class="cheatsheet-card" href="/power-bi-250-formulas/">
-    <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/power-bi-icon.png" alt="Power BI">
+    <img src="/assets/images/powerbi-icon.svg" alt="Power BI">
     <h3>Power BI 250+ Formulas</h3>
   </a>
 
   <a class="cheatsheet-card" href="/tableau-250-formulas/">
-    <img src="https://play-lh.googleusercontent.com/mOnDUzDzCg17hGNgAkMAnaR8dAcT8WwyBfkKqJtSRC0MdNZ4RrNR01GK0PrgEFA_NFM=w240-h480-rw" alt="Tableau">
+    <img src="/assets/images/tableau-icon.svg" alt="Tableau">
     <h3>Tableau 250+ Formulas</h3>
   </a>
 
   <a class="cheatsheet-card" href="/sql-250-formulas/">
-    <img src="https://cdn.prod.website-files.com/66754aa69a5d872183713f9c/672dfced5422c158fb5a6002_mysql%20logo.png" alt="SQL">
+    <img src="/assets/images/sql-icon.svg" alt="SQL">
     <h3>SQL 250+ Formulas</h3>
   </a>
 </div>
