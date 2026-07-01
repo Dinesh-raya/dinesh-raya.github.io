@@ -2,46 +2,157 @@
 layout: default
 title: Home
 ---
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAYA Learning</title>
-    <style>
-        body {font-family:Arial,sans-serif;background:#fff;color:#202124;margin:0;padding:40px 20px;}
-        .cards {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;max-width:1200px;margin:0 auto;}
-        .card {background:white;border:1px solid #ddd;padding:30px;border-radius:12px;transition:all .3s;cursor:pointer;text-align:center;}
-        .card:hover {box-shadow:0 10px 30px rgba(0,0,0,.12);transform:translateY(-6px);}
-        .card img {width:90px;height:90px;margin-bottom:15px;}
-    </style>
-</head>
-<body>
-    <div class="cards">
-        <!-- Your Manual Static Cards -->
-        <div class="card" onclick="window.location='/sql-projects'">
-            <img src="https://storage.googleapis.com/imy-bucket-prod/icons/datanalysticon.svg">
-            <h3>SQL 50 Projects</h3>
-            <p>Real World YouTube Data</p>
-        </div>
-        <div class="card" onclick="window.location='/claude-leak/'">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Claude_AI_symbol.svg">
-            <h3>Claude Leak</h3>
-        </div>
-        <div class="card" onclick="window.location='/cheatsheet/'">
-            <img src="https://storage.googleapis.com/imy-bucket-prod/icons/page.png">
-            <h3>Cheatsheet</h3>
-            <p>Excel &middot; Power BI &middot; Tableau &middot; SQL</p>
-        </div>
 
-        <!-- Dynamic Blog Post Cards (They will match your custom styling seamlessly!) -->
-        {% for post in site.posts %}
-        <div class="card" onclick="window.location='{{ post.url }}'">
-            <img src="https://storage.googleapis.com/imy-bucket-prod/icons/datanalysticon.svg">
-            <h3>{{ post.title }}</h3>
-            <p>{{ post.description }}</p>
+<style>
+  .section-wrap {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 32px;
+    background-color: #fdfdfd;
+  }
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    align-items: stretch;
+  }
+  .course-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+  }
+  .course-card-inner {
+    background: white;
+    padding: 24px 16px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .course-card-inner:hover {
+    border-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.05);
+  }
+  .icon-container {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F5F5F5;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .icon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .course-card-inner h3 {
+    font-size: 0.875rem;
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #111827;
+    word-break: break-word;
+  }
+  .badge-new {
+    font-size: 0.75rem;
+    background: #000;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-top: 8px;
+    display: inline-block;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  @media (max-width: 768px) {
+    .course-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 8px !important;
+    }
+    .section-wrap {
+      padding: 10px !important;
+    }
+    .course-card-inner {
+      padding: 12px 8px !important;
+      border-radius: 12px !important;
+    }
+    .course-card-inner h3 {
+      font-size: 0.8rem !important;
+    }
+    .icon-container {
+      width: 36px !important;
+      height: 36px !important;
+      margin-bottom: 8px !important;
+    }
+  }
+</style>
+
+<div class="section-wrap">
+  <div class="course-grid">
+    <a class="course-card" href="/sql-projects">
+      <div class="course-card-inner">
+        <div class="icon-container">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C7.58172 3 4 4.34315 4 6V18C4 19.6569 7.58172 21 12 21C16.4183 21 20 19.6569 20 18V6C20 4.34315 16.4183 3 12 3Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 12C4 13.6569 7.58172 15 12 15C16.4183 15 20 13.6569 20 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 6C4 7.6569 7.58172 9 12 9C16.4183 9 20 7.6569 20 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        {% endfor %}
-    </div>
-</body>
-</html>
+        <h3>SQL 50 Projects</h3>
+        <span class="badge-new">NEW</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="section-wrap">
+  <div class="course-grid">
+    <a class="course-card" href="/claude-leak/">
+      <div class="course-card-inner">
+        <div class="icon-container">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Claude_AI_symbol.svg" alt="Claude Leak">
+        </div>
+        <h3>Claude Leak</h3>
+      </div>
+    </a>
+    <a class="course-card" href="/cheatsheet/">
+      <div class="course-card-inner">
+        <div class="icon-container">
+          <img src="https://storage.googleapis.com/imy-bucket-prod/icons/page.png" alt="Cheatsheet">
+        </div>
+        <h3>Cheatsheet</h3>
+      </div>
+    </a>
+  </div>
+</div>
+
+{% for post in site.posts %}
+<div class="section-wrap">
+  <div class="course-grid">
+    <a class="course-card" href="{{ post.url }}">
+      <div class="course-card-inner">
+        <div class="icon-container">
+          <img src="https://storage.googleapis.com/imy-bucket-prod/icons/datanalysticon.svg" alt="Blog">
+        </div>
+        <h3>{{ post.title }}</h3>
+      </div>
+    </a>
+  </div>
+</div>
+{% endfor %}
