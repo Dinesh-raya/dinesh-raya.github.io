@@ -13,5 +13,4 @@ permalink: /about/
 <div class="page">
   <h1>About</h1>
   <p>RAYA is a learning platform built for developers and data enthusiasts. We provide hands-on resources, cheatsheets, and real-world projects to help you level up your skills.</p>
-  <p>This site is built with Jekyll and Decap CMS, hosted on GitHub Pages.</p>
 </div>
