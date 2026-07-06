@@ -5,7 +5,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
 ---
 
 <style>
-  .hw { max-width: 700px; margin: 0 auto; }
+  .hw { max-width: 1100px; margin: 0 auto; }
   .hw-hero { text-align: center; padding: 40px 16px 8px; }
   .hw-hero h1 { margin: 0; font-size: 2.4rem; letter-spacing: -0.02em; line-height: 1.2; }
   .hw-hero p { font-size: 1.1rem; color: var(--text-secondary); margin: 12px 0 20px; line-height: 1.6; }
@@ -17,22 +17,22 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   .hw-section { border: 1px solid var(--border); border-radius: var(--border-radius); padding: 24px; margin-bottom: 28px; background: var(--surface-alt); }
   .hw-section-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 16px; color: var(--text); }
 
-  .hw-feature-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--card-shadow); transition: transform 0.2s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.2s cubic-bezier(0.25,0.8,0.25,1), border-color 0.2s; position: relative; overflow: hidden; }
-  .hw-feature-card:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
-  .hw-feature-badge { position: absolute; top: 12px; right: 12px; background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .hw-feature-row { display: flex; align-items: center; gap: 20px; }
-  .hw-feature-icon { width: 56px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border-radius: 12px; overflow: hidden; }
-  .hw-feature-icon img { width: 100%; height: 100%; object-fit: contain; padding: 8px; box-sizing: border-box; }
-  .hw-feature-info { flex: 1; min-width: 0; }
-  .hw-feature-info h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--h3-card-color); }
-  .hw-feature-info p { margin: 4px 0 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+  .hw-featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
-  .hw-ring-wrap { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-  .hw-ring { width: 52px; height: 52px; border-radius: 50%; position: relative; }
+  .hw-feature-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--border-radius); padding: 20px; box-shadow: var(--card-shadow); transition: transform 0.2s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.2s cubic-bezier(0.25,0.8,0.25,1), border-color 0.2s; position: relative; overflow: hidden; }
+  .hw-feature-card:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
+  .hw-feature-badge { position: absolute; top: 10px; right: 10px; background: var(--accent); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .hw-feature-icon { width: 48px; height: 48px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
+  .hw-feature-icon img { width: 100%; height: 100%; object-fit: contain; padding: 8px; box-sizing: border-box; }
+  .hw-feature-card h3 { margin: 0 0 6px; font-size: 0.95rem; font-weight: 700; color: var(--h3-card-color); line-height: 1.3; }
+  .hw-feature-card p { margin: 0; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; flex: 1; }
+  .hw-feature-card .hw-ring-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-light); }
+  .hw-ring { width: 44px; height: 44px; border-radius: 50%; position: relative; flex-shrink: 0; }
   .hw-ring svg { transform: rotate(-90deg); }
   .hw-ring-bg { fill: none; stroke: #e8e8e8; stroke-width: 4; }
   .hw-ring-fg { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
-  .hw-ring-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.75rem; font-weight: 700; color: var(--text); }
+  .hw-ring-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7rem; font-weight: 700; color: var(--text); }
+  .hw-ring-text { font-size: 0.75rem; color: var(--text-muted); }
 
   .hw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
   .hw-card { text-decoration: none; color: inherit; display: block; }
@@ -42,18 +42,19 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   .hw-card-icon img { width: 100%; height: 100%; object-fit: contain; padding: 6px; box-sizing: border-box; }
   .hw-card-inner h3 { font-size: 0.85rem; margin: 0; font-weight: 600; line-height: 1.3; color: var(--h3-card-color); word-break: break-word; }
 
+  @media (max-width: 900px) {
+    .hw-featured-grid { grid-template-columns: 1fr; }
+  }
+
   @media (max-width: 768px) {
     .hw-hero h1 { font-size: 1.7rem; }
     .hw-stats { gap: 16px; }
     .hw-stat-num { font-size: 1.3rem; }
     .hw-section { padding: 16px; }
-    .hw-feature-row { flex-direction: column; text-align: center; }
-    .hw-feature-icon { width: 48px; height: 48px; }
     .hw-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .hw-card-inner { padding: 12px 8px; border-radius: 12px; }
     .hw-card-inner h3 { font-size: 0.78rem; }
     .hw-card-icon { width: 36px; height: 36px; margin-bottom: 8px; }
-    .hw-ring-wrap { margin: 0 auto; }
   }
 </style>
 
@@ -71,77 +72,64 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
 
   <div class="hw-section">
     <h2 class="hw-section-title">Featured</h2>
-    <a class="hw-feature-card" href="/sql-project/">
-      <span class="hw-feature-badge">New</span>
-      <div class="hw-feature-row">
+    <div class="hw-featured-grid">
+      <a class="hw-feature-card" href="/sql-project/">
+        <span class="hw-feature-badge">New</span>
         <div class="hw-feature-icon">
           <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY" alt="SQL Project" loading="lazy">
         </div>
-        <div class="hw-feature-info">
-          <h3>SQL: 50 Real-Time YouTube Analytics Challenges</h3>
-          <p>Solve real SQL problems using YouTube data — basic SELECT to advanced CTEs and window functions. Interactive editor with instant validation.</p>
-        </div>
+        <h3>SQL: 50 YouTube Analytics Challenges</h3>
+        <p>Real SQL problems using YouTube data — SELECT to CTEs and window functions. Interactive editor with instant validation.</p>
         <div class="hw-ring-wrap">
+          <span class="hw-ring-text">Progress</span>
           <div class="hw-ring" id="hwProgressRing">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle class="hw-ring-bg" cx="26" cy="26" r="22"></circle>
-              <circle class="hw-ring-fg" id="hwRingFg" cx="26" cy="26" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"></circle>
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <circle class="hw-ring-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="hw-ring-fg" id="hwRingFg" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="113.1"></circle>
             </svg>
             <span class="hw-ring-label" id="hwRingLabel">0%</span>
           </div>
         </div>
-      </div>
-    </a>
-  </div>
+      </a>
 
-  <div class="hw-section">
-    <h2 class="hw-section-title">Featured</h2>
-    <a class="hw-feature-card" href="/excel-project/" style="margin-top: 12px;">
-      <span class="hw-feature-badge">New</span>
-      <div class="hw-feature-row">
+      <a class="hw-feature-card" href="/excel-project/">
+        <span class="hw-feature-badge">New</span>
         <div class="hw-feature-icon">
           <img src="/assets/images/excel-logo.svg" alt="Excel Project" loading="lazy">
         </div>
-        <div class="hw-feature-info">
-          <h3>Excel: 50 Real-World Formula Challenges</h3>
-          <p>Solve practical Excel problems using real datasets — SUM, VLOOKUP, INDEX-MATCH, and more. Interactive editor with instant validation.</p>
-        </div>
+        <h3>Excel: 50 Real-World Formula Challenges</h3>
+        <p>Practical Excel problems using real datasets — SUM, VLOOKUP, INDEX-MATCH, and more. Interactive editor with instant validation.</p>
         <div class="hw-ring-wrap">
+          <span class="hw-ring-text">Progress</span>
           <div class="hw-ring" id="hwExcelRing">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle class="hw-ring-bg" cx="26" cy="26" r="22"></circle>
-              <circle class="hw-ring-fg" id="hwExcelRingFg" cx="26" cy="26" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"></circle>
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <circle class="hw-ring-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="hw-ring-fg" id="hwExcelRingFg" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="113.1"></circle>
             </svg>
             <span class="hw-ring-label" id="hwExcelRingLabel">0%</span>
           </div>
         </div>
-      </div>
-    </a>
-  </div>
+      </a>
 
-  <div class="hw-section">
-    <h2 class="hw-section-title">Featured</h2>
-    <a class="hw-feature-card" href="/python-project/" style="margin-top: 12px;">
-      <span class="hw-feature-badge">New</span>
-      <div class="hw-feature-row">
+      <a class="hw-feature-card" href="/python-project/">
+        <span class="hw-feature-badge">New</span>
         <div class="hw-feature-icon">
           <img src="/assets/images/python-logo.svg" alt="Python Project" loading="lazy">
         </div>
-        <div class="hw-feature-info">
-          <h3>Python: 50 Hands-On Coding Challenges</h3>
-          <p>Solve real Python problems — from basic variables to Pandas data analysis. Interactive editor with instant validation.</p>
-        </div>
+        <h3>Python: 50 Hands-On Coding Challenges</h3>
+        <p>Real Python problems — from basic variables to Pandas data analysis. Interactive editor with instant validation.</p>
         <div class="hw-ring-wrap">
+          <span class="hw-ring-text">Progress</span>
           <div class="hw-ring" id="hwPythonRing">
-            <svg width="52" height="52" viewBox="0 0 52 52">
-              <circle class="hw-ring-bg" cx="26" cy="26" r="22"></circle>
-              <circle class="hw-ring-fg" id="hwPythonRingFg" cx="26" cy="26" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"></circle>
+            <svg width="44" height="44" viewBox="0 0 44 44">
+              <circle class="hw-ring-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="hw-ring-fg" id="hwPythonRingFg" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="113.1"></circle>
             </svg>
             <span class="hw-ring-label" id="hwPythonRingLabel">0%</span>
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
   </div>
 
   <div class="hw-section">
@@ -181,13 +169,10 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   var total = 50;
   var pct = Math.round(count / total * 100);
 
-  var countEl = document.getElementById('hwSolvedCount');
-  if (countEl) countEl.textContent = count;
-
   var ring = document.getElementById('hwRingFg');
   var label = document.getElementById('hwRingLabel');
   if (ring && label) {
-    var circumference = 2 * Math.PI * 22;
+    var circumference = 2 * Math.PI * 18;
     var offset = circumference - (pct / 100) * circumference;
     ring.setAttribute('stroke-dasharray', circumference);
     ring.setAttribute('stroke-dashoffset', offset);
@@ -197,12 +182,11 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   var excelSolved = {};
   try { var es = localStorage.getItem('excelSolved'); if (es) excelSolved = JSON.parse(es); } catch(e) {}
   var excelCount = Object.keys(excelSolved).length;
-  var excelTotal = 50;
-  var excelPct = Math.round(excelCount / excelTotal * 100);
+  var excelPct = Math.round(excelCount / 50 * 100);
   var excelRing = document.getElementById('hwExcelRingFg');
   var excelLabel = document.getElementById('hwExcelRingLabel');
   if (excelRing && excelLabel) {
-    var exCircumference = 2 * Math.PI * 22;
+    var exCircumference = 2 * Math.PI * 18;
     var exOffset = exCircumference - (excelPct / 100) * exCircumference;
     excelRing.setAttribute('stroke-dasharray', exCircumference);
     excelRing.setAttribute('stroke-dashoffset', exOffset);
@@ -212,12 +196,11 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   var pythonSolved = {};
   try { var ps = localStorage.getItem('pythonSolved'); if (ps) pythonSolved = JSON.parse(ps); } catch(e) {}
   var pythonCount = Object.keys(pythonSolved).length;
-  var pythonTotal = 50;
-  var pythonPct = Math.round(pythonCount / pythonTotal * 100);
+  var pythonPct = Math.round(pythonCount / 50 * 100);
   var pythonRing = document.getElementById('hwPythonRingFg');
   var pythonLabel = document.getElementById('hwPythonRingLabel');
   if (pythonRing && pythonLabel) {
-    var pyCircumference = 2 * Math.PI * 22;
+    var pyCircumference = 2 * Math.PI * 18;
     var pyOffset = pyCircumference - (pythonPct / 100) * pyCircumference;
     pythonRing.setAttribute('stroke-dasharray', pyCircumference);
     pythonRing.setAttribute('stroke-dashoffset', pyOffset);
