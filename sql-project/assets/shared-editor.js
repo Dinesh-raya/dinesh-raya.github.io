@@ -154,6 +154,13 @@
     });
   };
 
+  S.showPlaceholder = function () {
+    var el = document.getElementById('resultArea');
+    if (!el) return;
+    var text = el.getAttribute('data-placeholder') || 'Ready.';
+    el.innerHTML = '<div class="result-empty">' + S.escapeHtml(text) + '</div>';
+  };
+
   S.buildTable = function (columns, rows) {
     var h = '<table class="data-table"><thead><tr>';
     columns.forEach(function (c, i) {

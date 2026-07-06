@@ -13,6 +13,29 @@
   <link rel="icon" type="image/svg+xml" href="/raya.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="alternate" type="application/atom+xml" title="RAYA Blog" href="/atom.xml">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "RAYA",
+    "url": "{{ site.url }}",
+    "description": "{{ site.description | xml_escape }}"
+  }
+  </script>
+  {% if page.title and page.url and page.content.size > 100 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {{ page.title | jsonify }},
+    "url": "{{ site.url }}{{ page.url }}",
+    "description": {{ page.description | default: page.excerpt | strip_html | truncate: 200 | jsonify }},
+    "publisher": { "@type": "Organization", "name": "RAYA" },
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }}
+  }
+  </script>
+  {% endif %}
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">

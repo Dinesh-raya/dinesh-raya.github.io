@@ -1019,6 +1019,76 @@ body .solve-page .container {
     padding: 16px 0;
   }
 
+  .solve-page {
+    padding: 0;
+  }
+
+  .solve-body {
+    gap: 0;
+  }
+
+  .q-card { border-radius: 0; }
+  .q-card-inner { padding: 16px; }
+
+  .q-title-row h1 {
+    font-size: 18px;
+  }
+
+  .q-title-row .solution-btn {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .description-text {
+    font-size: 13px;
+    max-height: 72px;
+    overflow: hidden;
+    position: relative;
+  }
+  .description-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background: linear-gradient(transparent, var(--color-surface));
+    pointer-events: none;
+  }
+
+  .schema-layout { grid-template-columns: 1fr; }
+  .ascii-box pre { font-size: 10px; }
+
+  .meta-row { font-size: 12px; }
+  .badge { font-size: 10px; padding: 2px 8px; }
+
+  .workspace-column {
+    min-height: 0;
+    gap: 0;
+  }
+
+  .editor-toolbar { padding: 8px 12px; }
+  .editor-label { font-size: 12px; }
+  .editor-label svg { width: 14px; height: 14px; }
+  .editor-status { font-size: 11px; }
+  .run-btn { padding: 6px 12px; font-size: 12px; }
+  .editor-container .CodeMirror { height: 180px; font-size: 12px; }
+
+  .result-section { min-height: 180px; }
+  .result-section .data-table { font-size: 12px; }
+  .result-section .data-table th,
+  .result-section .data-table td { padding: 4px 6px; }
+
+  .result-info { font-size: 11px; }
+  .validation-badge { font-size: 13px; padding: 8px 14px; }
+
+  .footer-actions { gap: 8px; }
+  .footer-btn { font-size: 12px; padding: 8px 14px; }
+
+  .hint-summary { font-size: 13px; padding: 8px 12px; }
+  .hint-content { font-size: 13px; }
+  .sub-label { font-size: 12px; }
+
   .hero-text h1 {
     font-size: 22px;
   }
@@ -1041,6 +1111,31 @@ body .solve-page .container {
     padding: 8px 14px;
     font-size: 13px;
   }
+
+  .data-grid { font-size: 11px; }
+  .data-grid th, .data-grid td { padding: 2px 4px; }
+}
+
+/* ========== 19. SKELETON LOADING ========== */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--color-border-light) 25%, #e8e8e8 50%, var(--color-border-light) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+.skeleton-line { height: 14px; margin-bottom: 8px; width: 100%; }
+.skeleton-line:nth-child(2) { width: 85%; }
+.skeleton-line:nth-child(3) { width: 70%; }
+.skeleton-block { height: 100px; margin-bottom: 12px; }
+.skeleton-ring { width: 44px; height: 44px; border-radius: 50%; }
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+  background-size: 200% 100%;
 }
 
 /* ========== 18. CUSTOM SCROLLBARS ========== */

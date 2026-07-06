@@ -77,8 +77,10 @@ description: Interactive Excel formula editor with live evaluation using HyperFo
         <div id="editorContainer" class="editor-container"></div>
       </div>
 
-      <div class="result-section" id="resultArea">
-        <div class="result-empty">Click "Evaluate" to compute the formula result.</div>
+      <div class="result-section" id="resultArea" data-placeholder="Click &quot;Evaluate&quot; to compute the formula result.">
+        <div class="skeleton-block skeleton"></div>
+        <div class="skeleton-line skeleton"></div>
+        <div class="skeleton-line skeleton"></div>
       </div>
     </div>
   </div>

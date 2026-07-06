@@ -236,6 +236,23 @@ __stdout.getvalue()
     _.setupSolvedBtn('pythonSolved', problem.id);
 
     document.title = '#' + problem.id + ' ' + problem.title + ' | Python Project';
+    var ld = document.getElementById('problemLd');
+    if (!ld) {
+      ld = document.createElement('script');
+      ld.id = 'problemLd';
+      ld.type = 'application/ld+json';
+      document.head.appendChild(ld);
+    }
+    ld.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'LearningResource',
+      'name': '#' + problem.id + ' ' + problem.title,
+      'description': (problem.description || '').substring(0, 300),
+      'educationalLevel': problem.difficulty,
+      'teaches': 'Python',
+      'audience': { '@type': 'Audience', 'audienceType': 'Data Analyst' }
+    });
+    _.showPlaceholder();
   }
 
   if (document.readyState === 'loading') {

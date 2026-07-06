@@ -86,8 +86,10 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
         <div id="editorContainer" class="editor-container"></div>
       </div>
 
-      <div class="result-section" id="resultArea">
-        <div class="result-empty">Click "Run SQL" to execute the query and see results here.</div>
+      <div class="result-section" id="resultArea" data-placeholder="Click &quot;Run SQL&quot; to execute the query and see results here.">
+        <div class="skeleton-block skeleton"></div>
+        <div class="skeleton-line skeleton"></div>
+        <div class="skeleton-line skeleton"></div>
       </div>
     </div>
   </div>

@@ -77,8 +77,10 @@ description: Interactive Python editor with live code execution using Pyodide (b
         <div id="editorContainer" class="editor-container"></div>
       </div>
 
-      <div class="result-section" id="resultArea">
-        <div class="result-empty">Click "Run" to execute the Python code and see output.</div>
+      <div class="result-section" id="resultArea" data-placeholder="Click &quot;Run&quot; to execute the Python code and see output.">
+        <div class="skeleton-block skeleton"></div>
+        <div class="skeleton-line skeleton"></div>
+        <div class="skeleton-line skeleton"></div>
       </div>
     </div>
   </div>
