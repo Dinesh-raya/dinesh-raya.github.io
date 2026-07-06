@@ -20,7 +20,12 @@
       el.innerHTML = h + '<div class="result-empty">Code executed successfully. No output.</div>';
       return;
     }
-    h += '<div class="result-console"><pre>' + escapeHtml(output) + '</pre></div>';
+    var outputStr = String(output);
+    if (outputStr.indexOf('<img') !== -1) {
+      h += '<div class="result-console">' + outputStr + '</div>';
+    } else {
+      h += '<div class="result-console"><pre>' + escapeHtml(outputStr) + '</pre></div>';
+    }
     el.innerHTML = h;
   }
 
@@ -82,15 +87,33 @@
     if (statusEl) statusEl.textContent = 'Running...';
 
     try {
-      // Redirect stdout
+      // Setup stdout + matplotlib capture
       pyodide.runPython(`
-import io, sys
+import io, sys, base64, matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 __stdout = io.StringIO()
 sys.stdout = __stdout
+__fig_n = 0
+def __save_plot():
+    global __fig_n
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', dpi=100)
+    buf.seek(0)
+    b64 = base64.b64encode(buf.read()).decode()
+    plt.close()
+    __fig_n += 1
+    sys.__stdout__.write('<img style="max-width:100%;margin:8px 0" src="data:image/png;base64,' + b64 + '">\\n')
       `);
+
+      // Patch plt.show to auto-capture
+      pyodide.runPython("plt.show = __save_plot");
 
       // Run user code
       pyodide.runPython(fullCode);
+
+      // Capture any remaining open figures
+      pyodide.runPython("if plt.get_fignums(): __save_plot()");
 
       // Capture and restore stdout
       var output = pyodide.runPython(`
@@ -171,16 +194,18 @@ __stdout.getvalue()
     }
 
     if (typeof CodeMirror !== 'undefined') {
+      if (_.getCodeTheme() === 'material') _.loadCodeThemeCSS();
       editor = CodeMirror(document.getElementById('editorContainer'), {
         value: '',
         mode: 'text/x-python',
-        theme: 'default',
+        theme: _.getCodeTheme(),
         lineNumbers: true,
         indentWithTabs: false,
         smartIndent: true,
         lineWrapping: true,
         extraKeys: { 'Ctrl-Enter': runPython, 'Cmd-Enter': runPython }
       });
+      _.registerEditor(editor);
     } else {
       var ta = document.createElement('textarea');
       ta.style.cssText = 'width:100%;height:120px;padding:10px;font-family:monospace;font-size:14px;border:none;resize:vertical;';

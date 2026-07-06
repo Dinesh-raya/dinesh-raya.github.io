@@ -2,6 +2,7 @@
   'use strict';
 
   var S = window.__shared = {};
+  var editors = [];
 
   S.escapeHtml = function (v) {
     if (v === null || v === undefined) return '';
@@ -88,5 +89,78 @@
         localStorage.setItem(storageKey, JSON.stringify(s));
       } catch (e) {}
     });
+  };
+
+  S.getCodeTheme = function () {
+    return document.documentElement.classList.contains('dark') ? 'material' : 'default';
+  };
+
+  var themeCSSLoaded = false;
+  S.loadCodeThemeCSS = function () {
+    if (themeCSSLoaded) return;
+    themeCSSLoaded = true;
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/material.css';
+    link.integrity = 'sha384-q5e2HcX1EH6E6/9k5fclbTm3sz/b8LqFHY6z4MWuOshQRLefvLEJGfKC0hxn5ayb';
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  };
+
+  S.registerEditor = function (cm) {
+    editors.push(cm);
+  };
+
+  S.syncCodeTheme = function () {
+    var theme = S.getCodeTheme();
+    editors.forEach(function (cm) {
+      if (cm.setOption) cm.setOption('theme', theme);
+    });
+  };
+
+  var observer = window.__themeObserver;
+  if (!observer) {
+    observer = new MutationObserver(function () {
+      S.syncCodeTheme();
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    window.__themeObserver = observer;
+  }
+
+  S.sortTable = function (table, colIndex) {
+    var tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+    var ascending = table.getAttribute('data-sort-col') === String(colIndex) && table.getAttribute('data-sort-order') !== 'asc';
+    rows.sort(function (a, b) {
+      var aVal = a.children[colIndex] ? a.children[colIndex].textContent.trim() : '';
+      var bVal = b.children[colIndex] ? b.children[colIndex].textContent.trim() : '';
+      var aNum = parseFloat(aVal), bNum = parseFloat(bVal);
+      if (!isNaN(aNum) && !isNaN(bNum)) return ascending ? aNum - bNum : bNum - aNum;
+      return ascending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    });
+    rows.forEach(function (r) { tbody.appendChild(r); });
+    table.setAttribute('data-sort-col', colIndex);
+    table.setAttribute('data-sort-order', ascending ? 'asc' : 'desc');
+    var headers = table.querySelectorAll('th');
+    headers.forEach(function (h, i) {
+      h.classList.toggle('sort-asc', i === colIndex && ascending);
+      h.classList.toggle('sort-desc', i === colIndex && !ascending);
+    });
+  };
+
+  S.buildTable = function (columns, rows) {
+    var h = '<table class="data-table"><thead><tr>';
+    columns.forEach(function (c, i) {
+      h += '<th data-col="' + i + '">' + S.escapeHtml(c) + '</th>';
+    });
+    h += '</tr></thead><tbody>';
+    rows.forEach(function (r) {
+      h += '<tr>';
+      r.forEach(function (v) { h += '<td>' + v + '</td>'; });
+      h += '</tr>';
+    });
+    h += '</tbody></table>';
+    return h;
   };
 })();

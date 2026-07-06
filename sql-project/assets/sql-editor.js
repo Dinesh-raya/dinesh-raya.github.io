@@ -40,17 +40,21 @@
       el.innerHTML = h + '<div class="result-empty">Query executed successfully. No rows returned.</div>';
       return;
     }
-    h += '<table class="data-table"><thead><tr>';
-    columns.forEach(function (c) { h += '<th>' + escapeHtml(c) + '</th>'; });
-    h += '</tr></thead><tbody>';
-    rows.forEach(function (r) {
-      h += '<tr>';
-      r.forEach(function (v) { h += '<td>' + formatValue(v) + '</td>'; });
-      h += '</tr>';
+    var formattedRows = rows.map(function (r) {
+      return r.map(function (v) { return formatValue(v); });
     });
-    h += '</tbody></table>';
+    h += _.buildTable(columns, formattedRows);
     h += '<div class="result-info">' + rows.length + ' row' + (rows.length !== 1 ? 's' : '') + ' returned</div>';
     el.innerHTML = h;
+    var table = el.querySelector('.data-table');
+    if (table) {
+      table.addEventListener('click', function (e) {
+        var th = e.target.closest('th');
+        if (th && th.getAttribute('data-col') !== null) {
+          _.sortTable(table, parseInt(th.getAttribute('data-col'), 10));
+        }
+      });
+    }
   }
 
   function padCol(v, len) {
@@ -248,6 +252,24 @@
 
     document.getElementById('schemaDisplay').innerHTML = '<pre>' + escapeHtml(renderSchemaAscii(problem.tables, masterSchema)) + '</pre>';
 
+    // Render Mermaid ER diagram
+    var mermaidDef = 'erDiagram\n';
+    problem.tables.forEach(function(tName) {
+      var tDef = masterSchema[tName];
+      if (!tDef) return;
+      mermaidDef += '  ' + tName + ' {\n';
+      tDef.columns.forEach(function(c) {
+        var pk = tName.slice(0, -1) + '_id' === c.name ? ' PK' : '';
+        mermaidDef += '    ' + c.type + ' ' + c.name + pk + '\n';
+      });
+      mermaidDef += '  }\n';
+    });
+    var diagEl = document.getElementById('schemaDiagram');
+    if (diagEl && typeof mermaid !== 'undefined') {
+      diagEl.innerHTML = '<div class="mermaid">' + mermaidDef + '</div>';
+      mermaid.run();
+    }
+
     var hintEl = document.getElementById('hintText');
     if (problem.hint) {
       hintEl.innerHTML = '<strong>Tip:</strong> ' + escapeHtml(problem.hint);
@@ -279,16 +301,18 @@
     }
 
     if (typeof CodeMirror !== 'undefined') {
+      if (_.getCodeTheme() === 'material') _.loadCodeThemeCSS();
       editor = CodeMirror(document.getElementById('editorContainer'), {
         value: 'SELECT * FROM ' + (problem.tables[0] || '') + ';',
         mode: 'text/x-sql',
-        theme: 'default',
+        theme: _.getCodeTheme(),
         lineNumbers: true,
         indentWithTabs: true,
         smartIndent: true,
         lineWrapping: true,
         extraKeys: { 'Ctrl-Enter': runQuery, 'Cmd-Enter': runQuery }
       });
+      _.registerEditor(editor);
     } else {
       var ta = document.createElement('textarea');
       ta.style.cssText = 'width:100%;height:120px;padding:10px;font-family:monospace;font-size:14px;border:none;resize:vertical;';

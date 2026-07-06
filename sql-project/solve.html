@@ -27,8 +27,16 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
             <span class="table-pill">Tables: <span class="pill" id="problemTables"></span></span>
           </div>
 
-          <div class="ascii-box" id="schemaDisplay">
-            <div class="loading">Loading...</div>
+          <div class="sql-dialect-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Uses <strong>SQLite</strong> for in-browser validation. Syntax may differ in PostgreSQL, BigQuery, or Snowflake (e.g., date functions, string concatenation).
+          </div>
+
+          <div class="schema-layout">
+            <div class="ascii-box" id="schemaDisplay">
+              <div class="loading">Loading...</div>
+            </div>
+            <div class="schema-diagram" id="schemaDiagram"></div>
           </div>
 
           <div class="description-text" id="problemDescription"></div>
@@ -89,5 +97,6 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js" integrity="sha384-BEgQlz0fN4eG0n4jipmUe+nOg65hPY7L0E/lPVRaOPdzAfLPGEbXnpAodHtSnlwM" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/sql/sql.min.js" integrity="sha384-HxXmA1hLc56V6Ja4yfcCwAprmbnS4tuvKYS0qKG3t6oxOFMflcnYq5fOnt6wVCda" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js" integrity="sha384-8D3Rsfo535FqoC1pHCCQMrNf75UgzyoG/HQm9zOzITRrz3QKzecc2E7JXKGCXoWu" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" integrity="sha384-gU3fABvVNXw72BM5gIGRgq6MR6ROkixqORBMApeqJ/yMAxO/k/Lt3Brs1VqYmFAz" crossorigin="anonymous"></script>
 <script src="/sql-project/assets/shared-editor.js"></script>
 <script src="/sql-project/assets/sql-editor.js"></script>

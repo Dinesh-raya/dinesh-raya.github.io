@@ -246,16 +246,18 @@
     }
 
     if (typeof CodeMirror !== 'undefined') {
+      if (_.getCodeTheme() === 'material') _.loadCodeThemeCSS();
       editor = CodeMirror(document.getElementById('editorContainer'), {
         value: problem.default_formula || '',
         mode: null,
-        theme: 'default',
+        theme: _.getCodeTheme(),
         lineNumbers: false,
         indentWithTabs: false,
         smartIndent: false,
         lineWrapping: true,
         extraKeys: { 'Ctrl-Enter': runFormula, 'Cmd-Enter': runFormula }
       });
+      _.registerEditor(editor);
     } else {
       var ta = document.createElement('textarea');
       ta.style.cssText = 'width:100%;height:40px;padding:10px;font-family:monospace;font-size:14px;border:none;resize:vertical;';
