@@ -5,12 +5,9 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
 ---
 
 <style>
-  .container {
-    padding: 0 16px;
-  }
   .section-wrap {
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     padding: 20px;
     margin-bottom: 32px;
     background-color: var(--surface-alt);
@@ -31,7 +28,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   .course-card-inner {
     background: var(--surface);
     padding: 24px 16px;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     border: 1px solid var(--border-light);
     display: flex;
     flex-direction: column;
@@ -137,6 +134,64 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
           </div>
         </div>
       </a>
+
+      <a class="course-card" href="/excel-250-formulas/">
+        <div class="course-card-inner">
+          <div class="card-content">
+            <div class="icon-container">
+              <img src="/assets/images/excel-icon.svg" alt="Excel">
+            </div>
+            <div class="card-text-wrap">
+              <h3>Excel 250+ Formulas</h3>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="course-card" href="/power-bi-250-formulas/">
+        <div class="course-card-inner">
+          <div class="card-content">
+            <div class="icon-container">
+              <img src="/assets/images/powerbi-icon.svg" alt="Power BI">
+            </div>
+            <div class="card-text-wrap">
+              <h3>Power BI 250+ Formulas</h3>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="course-card" href="/tableau-250-formulas/">
+        <div class="course-card-inner">
+          <div class="card-content">
+            <div class="icon-container">
+              <img src="/assets/images/tableau-icon.svg" alt="Tableau">
+            </div>
+            <div class="card-text-wrap">
+              <h3>Tableau 250+ Formulas</h3>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a class="course-card" href="/sql-250-formulas/">
+        <div class="course-card-inner">
+          <div class="card-content">
+            <div class="icon-container">
+              <img src="/assets/images/sql-icon.svg" alt="SQL">
+            </div>
+            <div class="card-text-wrap">
+              <h3>SQL 250+ Formulas</h3>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  {% if site.posts.size > 0 %}
+  <div class="section-wrap">
+    <div class="course-grid">
       {% for post in site.posts %}
       <a class="course-card" href="{{ post.url }}">
         <div class="course-card-inner">
@@ -153,4 +208,5 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
       {% endfor %}
     </div>
   </div>
+  {% endif %}
 </div>

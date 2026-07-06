@@ -25,8 +25,8 @@
       --text-light: #888888;
       --border: #dddddd;
       --border-light: #eeeeee;
-      --card-shadow: 0 2px 4px rgba(0,0,0,0.02);
-      --card-shadow-hover: 0 8px 12px rgba(0,0,0,0.05);
+      --card-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 8px 32px rgba(0,0,0,0.12);
       --inline-code-bg: #f0f0f0;
       --blockquote-bg: #f8f8f8;
       --blockquote-color: #555555;
@@ -53,67 +53,155 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
     }
     header {
-      background: #000000;
-      color: #ffffff;
+      background: #000;
+      color: #fff;
       padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 20px;
-      flex: 1;
+    header .logo a {
+      display: block;
     }
-    nav {
+    header .logo img {
+      height: 40px;
+      display: block;
+    }
+    header nav {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 24px;
     }
-    nav a {
+    header nav a {
       color: #fff;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 400;
       opacity: 0.8;
       transition: opacity 0.2s;
     }
-    nav a:hover {
+    header nav a:hover {
       opacity: 1;
     }
-
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+      -webkit-appearance: none;
+    }
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      flex: 1;
+      width: 100%;
+      box-sizing: border-box;
+    }
     footer {
       background: #000;
       color: #fff;
       padding: 20px 40px;
-      font-size: 14px;
+      margin-top: auto;
     }
-    footer a {
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    footer .footer-links a {
       color: var(--footer-link);
       text-decoration: none;
+      font-size: 14px;
       transition: color 0.2s;
     }
-    footer a:hover {
+    footer .footer-links a:hover {
       color: #fff;
     }
-    @media (max-width: 768px) {
+    footer .copyright {
+      text-align: center;
+      margin-top: 10px;
+      color: var(--copyright-color);
+      font-size: 0.8rem;
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.6);
+      z-index: 998;
+      backdrop-filter: blur(2px);
+    }
+    .mobile-overlay.active {
+      display: block;
+    }
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 85%;
+      max-width: 320px;
+      height: calc(100vh - 70px);
+      background: #000;
+      z-index: 999;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      box-shadow: 4px 0 16px rgba(0,0,0,0.3);
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+    }
+    .mobile-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 14px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .mobile-nav a:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    @media (max-width: 850px) {
       header {
         padding: 16px 20px;
       }
-      nav {
-        flex-wrap: wrap;
-        gap: 8px;
+      header nav {
+        display: none;
       }
-      nav a {
-        font-size: 14px;
+      .menu-toggle {
+        display: block;
+      }
+      .mobile-nav {
+        display: flex;
+      }
+      .container {
+        padding: 16px;
       }
       footer {
         padding: 20px 10px;
       }
-      footer a {
+      footer .footer-links a {
         font-size: 0.75rem;
       }
     }
@@ -121,14 +209,21 @@
 </head>
 <body>
 
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="/">Home</a>
+    <a href="/cheatsheet/">Cheatsheet</a>
+  </div>
+
   <header>
+    <div class="logo">
+      <a href="/"><img src="/raya.svg" alt="RAYA"></a>
+    </div>
     <nav>
-      <a href="/"><img src="/raya.svg" alt="RAYA" style="height:40px;display:block"></a>
-      <div style="display:flex;align-items:center;gap:16px;">
-        <a href="/">Home</a>
-        <a href="/cheatsheet/">Cheatsheet</a>
-      </div>
+      <a href="/">Home</a>
+      <a href="/cheatsheet/">Cheatsheet</a>
     </nav>
+    <button class="menu-toggle" id="menuToggle">☰</button>
   </header>
 
   <div class="container">
@@ -136,16 +231,37 @@
   </div>
 
   <footer>
-    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <div class="footer-links">
       <a href="/about/">About Us</a>
       <a href="/contact/">Contact Us</a>
       <a href="/privacy/">Privacy Policy</a>
       <a href="/terms/">Terms &amp; Conditions</a>
     </div>
-    <div style="text-align: center; margin-top: 10px; color: var(--copyright-color); font-size: 0.8rem;">
+    <div class="copyright">
       &copy; {{ site.time | date: '%Y' }} {{ site.title }}
     </div>
   </footer>
 
+  <script>
+    (function() {
+      var toggle = document.getElementById('menuToggle');
+      var nav = document.getElementById('mobileNav');
+      var overlay = document.getElementById('mobileOverlay');
+      if (toggle && nav && overlay) {
+        function openMenu() {
+          nav.classList.toggle('open');
+          overlay.classList.toggle('active');
+        }
+        toggle.addEventListener('click', openMenu);
+        overlay.addEventListener('click', openMenu);
+        nav.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            nav.classList.remove('open');
+            overlay.classList.remove('active');
+          });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
