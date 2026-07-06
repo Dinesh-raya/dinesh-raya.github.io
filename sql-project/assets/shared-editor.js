@@ -51,6 +51,21 @@
     });
   };
 
+  S.fetchJson = function (url) {
+    var cacheKey = 'json_' + url;
+    try {
+      var cached = localStorage.getItem(cacheKey);
+      if (cached) return Promise.resolve(JSON.parse(cached));
+    } catch (e) {}
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      try { localStorage.setItem(cacheKey, JSON.stringify(data)); } catch (e) {}
+      return data;
+    });
+  };
+
   S.setupSolvedBtn = function (storageKey, problemId) {
     var btn = document.getElementById('markSolvedBtn');
     if (!btn) return;

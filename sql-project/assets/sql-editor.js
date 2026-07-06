@@ -216,8 +216,7 @@
       var statusEl = document.getElementById('editorStatus');
       if (statusEl) statusEl.textContent = 'Loading...';
 
-      fetch('/sql-project/problems.json')
-        .then(function (r) { return r.json(); })
+      _.fetchJson('/sql-project/problems.json')
         .then(function (data) {
           var problem = data.problems.find(function (p) { return p.id === id; });
           if (!problem) { showError('Problem #' + id + ' not found.'); return; }

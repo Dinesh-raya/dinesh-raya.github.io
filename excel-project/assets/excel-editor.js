@@ -196,8 +196,7 @@
     var statusEl = document.getElementById('editorStatus');
     if (statusEl) statusEl.textContent = 'Loading...';
 
-    fetch('/excel-project/problems.json')
-      .then(function (r) { return r.json(); })
+    _.fetchJson('/excel-project/problems.json')
       .then(function (data) {
         var problem = data.problems.find(function (p) { return p.id === id; });
         if (!problem) { showError('Problem #' + id + ' not found.'); return; }
