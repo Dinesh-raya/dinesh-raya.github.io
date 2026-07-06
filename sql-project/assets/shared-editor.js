@@ -282,13 +282,16 @@
         });
       }
 
-      document.getElementById('prevBtn') && document.getElementById('prevBtn').addEventListener('click', function() {
+      var prevBtn = document.getElementById('prevBtn');
+      var nextBtn = document.getElementById('nextBtn');
+      var randomBtn = document.getElementById('randomBtn');
+      if (prevBtn) prevBtn.addEventListener('click', function() {
         if (state.currentIdx > 0) goTo(state.filtered[state.currentIdx - 1].id);
       });
-      document.getElementById('nextBtn') && document.getElementById('nextBtn').addEventListener('click', function() {
+      if (nextBtn) nextBtn.addEventListener('click', function() {
         if (state.currentIdx < state.filtered.length - 1) goTo(state.filtered[state.currentIdx + 1].id);
       });
-      document.getElementById('randomBtn') && document.getElementById('randomBtn').addEventListener('click', function() {
+      if (randomBtn) randomBtn.addEventListener('click', function() {
         if (state.filtered.length) goTo(state.filtered[Math.floor(Math.random() * state.filtered.length)].id);
       });
       var searchInput = document.getElementById('problemSearch');
@@ -298,10 +301,13 @@
       document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter') {
           e.preventDefault();
-          var nextBtn = document.getElementById('nextBtn');
           if (nextBtn) nextBtn.click();
         }
       });
+    }).catch(function(err) {
+      console.error('ProblemNav init failed:', err);
+      var el = document.getElementById('problemNav');
+      if (el) el.innerHTML = '<div class="pn-error">Failed to load problems. <button onclick="location.reload()">Retry</button></div>';
     });
 
     navInstance = state;

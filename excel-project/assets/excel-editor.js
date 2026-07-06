@@ -205,6 +205,8 @@
         initHF(problem);
         renderProblem(problem);
         _.initProblemNav({ url: '/excel-project/problems.json', onSwitch: window.switchProblem });
+        document.getElementById('runBtn').addEventListener('click', runFormula);
+        document.getElementById('resetBtn').addEventListener('click', resetFormula);
         if (statusEl) statusEl.textContent = 'Ready';
       })
       .catch(function (err) {
@@ -278,9 +280,6 @@
       document.getElementById('editorContainer').appendChild(ta);
       editor = ta;
     }
-
-    document.getElementById('runBtn').addEventListener('click', runFormula);
-    document.getElementById('resetBtn').addEventListener('click', resetFormula);
 
     var hintToggle = document.getElementById('hintToggle');
     var hintContent = document.getElementById('hintContent');

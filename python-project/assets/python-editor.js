@@ -68,6 +68,8 @@
         _.saveCardTemplate();
         renderProblem(problem);
         _.initProblemNav({ url: '/python-project/problems.json', onSwitch: window.switchProblem });
+        document.getElementById('runBtn').addEventListener('click', runPython);
+        document.getElementById('resetBtn').addEventListener('click', resetCode);
       })
       .catch(function(err) {
         showError('Failed to load problem data: ' + err.message);
@@ -221,9 +223,6 @@ __stdout.getvalue()
       document.getElementById('editorContainer').appendChild(ta);
       editor = ta;
     }
-
-    document.getElementById('runBtn').addEventListener('click', runPython);
-    document.getElementById('resetBtn').addEventListener('click', resetCode);
 
     var hintToggle = document.getElementById('hintToggle');
     var hintContent = document.getElementById('hintContent');
