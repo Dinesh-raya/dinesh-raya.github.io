@@ -200,6 +200,15 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     });
   } catch(e) {}
 
+  function progressColor(pct) {
+    if (pct >= 100) return '#22c55e';
+    if (pct >= 70) return '#4ade80';
+    if (pct >= 50) return '#84cc16';
+    if (pct >= 30) return '#eab308';
+    if (pct >= 10) return '#f97316';
+    return '#276EF1';
+  }
+
   function updateRing(ringId, labelId, count, total) {
     var ring = document.getElementById(ringId);
     var label = document.getElementById(labelId);
@@ -209,6 +218,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
       var offset = circumference - (pct / 100) * circumference;
       ring.setAttribute('stroke-dasharray', circumference);
       ring.setAttribute('stroke-dashoffset', offset);
+      ring.setAttribute('stroke', progressColor(pct));
       label.textContent = pct + '%';
     }
   }

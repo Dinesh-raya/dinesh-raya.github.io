@@ -153,6 +153,12 @@
     header nav a:hover {
       opacity: 1;
     }
+    header nav a.active, .mobile-nav a.active {
+      font-weight: 700;
+      opacity: 1;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
     .theme-toggle {
       background: none;
       border: 1px solid rgba(255,255,255,0.2);
@@ -366,6 +372,59 @@
         font-size: 0.75rem;
       }
     }
+
+    /* Scroll to Top */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+      z-index: 999;
+      padding: 0;
+    }
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .scroll-top-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Global Skeleton Loading */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg, var(--border-light) 25%, #e8e8e8 50%, var(--border-light) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      border-radius: 4px;
+    }
+    .skeleton-line { height: 14px; margin-bottom: 8px; width: 100%; }
+    .skeleton-line:nth-child(2) { width: 85%; }
+    .skeleton-line:nth-child(3) { width: 70%; }
+    .skeleton-block { height: 100px; margin-bottom: 12px; }
+    .skeleton-ring { width: 44px; height: 44px; border-radius: 50%; }
+    .dark .skeleton {
+      background: linear-gradient(90deg, #222 25%, #333 50%, #222 75%);
+      background-size: 200% 100%;
+    }
   </style>
 </head>
 <body>
@@ -424,6 +483,10 @@
   </footer>
 
   <div id="searchOverlay"><div class="search-modal"><button class="search-close" id="searchClose">&times;</button><div class="search-input-wrap"><input type="text" id="searchInput" placeholder="Search pages and posts..." autocomplete="off"></div><div id="searchStatus">Type to search...</div><ul id="searchResults"></ul></div></div>
+
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli" crossorigin="anonymous"></script>
   <script>
@@ -606,6 +669,28 @@
         }
       });
       loadSearchIndex();
+    })();
+
+    // Active nav state
+    (function() {
+      var path = window.location.pathname;
+      document.querySelectorAll('header nav a, .mobile-nav a').forEach(function(a) {
+        var href = a.getAttribute('href');
+        if (href === '/' && path === '/') { a.classList.add('active'); return; }
+        if (href && href !== '/' && path.indexOf(href) === 0) { a.classList.add('active'); }
+      });
+    })();
+
+    // Scroll to top
+    (function() {
+      var btn = document.getElementById('scrollTopBtn');
+      if (!btn) return;
+      window.addEventListener('scroll', function() {
+        btn.classList.toggle('visible', window.scrollY > 400);
+      });
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     })();
   </script>
 </body>
