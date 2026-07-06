@@ -76,12 +76,12 @@
 }
 
 .solve-page {
-  padding: 0;
+  padding: 20px 5%;
   max-width: 100%;
 }
-.solve-page .container {
-  max-width: 100% !important;
-  padding: 0 !important;
+body .solve-page .container {
+  max-width: 100%;
+  padding: 0;
 }
 
 .solve-body {
@@ -168,6 +168,20 @@
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+/* ========== 2b. HERO PROGRESS RING ========== */
+
+.h-progress-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+.h-progress-ring svg { transform: rotate(-90deg); display: block; }
+.h-ring-bg { fill: none; stroke: #e8e8e8; stroke-width: 4; }
+.h-ring-fg { fill: none; stroke: var(--color-accent); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+.h-ring-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem; font-weight: 700; color: var(--color-text); }
 
 /* ========== 3. SEARCH ========== */
 
@@ -257,6 +271,8 @@
 .q-status svg {
   display: block;
 }
+.q-solved-icon { color: #10b981; }
+.q-unsolved-icon { color: #94a3b8; }
 
 .q-title {
   flex: 1;
@@ -708,6 +724,37 @@
   color: #0d7c34;
 }
 
+/* ========== 11b. VALIDATION BADGE ========== */
+
+.validation-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-bold);
+  font-size: 15px;
+  margin-bottom: 16px;
+  animation: validation-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.validation-badge.valid {
+  background: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  color: #0d7c34;
+}
+
+.validation-badge.invalid {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  color: #721c24;
+}
+
+@keyframes validation-pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* ========== 12. RESULT ========== */
 
 .result-section {
@@ -800,10 +847,8 @@
 
 /* ========== 16. UTILITIES ========== */
 
-.result-empty-icon {
-  color: var(--color-text-muted);
-  text-align: center;
-  padding: var(--space-2xl) var(--space-lg);
+.result-empty--top {
+  margin-top: 40px;
 }
 
 .null-value {

@@ -5,145 +5,116 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
 ---
 
 <style>
-  .section-wrap {
-    border: 1px solid var(--border);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    margin-bottom: 32px;
-    background-color: var(--surface-alt);
-    box-sizing: border-box;
-  }
-  .course-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 16px;
-    align-items: stretch;
-  }
-  .course-card {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    height: 100%;
-  }
-  .course-card-inner {
-    background: var(--surface);
-    padding: 24px 16px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-light);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-    box-sizing: border-box;
-    justify-content: flex-start;
-    cursor: pointer;
-    box-shadow: var(--card-shadow);
-    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-  .course-card-inner:hover {
-    border-color: var(--text);
-    transform: translateY(-2px);
-    box-shadow: var(--card-shadow-hover);
-  }
-  .card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    flex: 1;
-    justify-content: flex-start;
-  }
-  .card-text-wrap {
-    width: 100%;
-  }
-  .icon-container {
-    width: 64px;
-    height: 64px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--icon-bg);
-    border-radius: 10px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .icon-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .course-card-inner h3 {
-    font-size: 0.875rem;
-    margin: 0;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--h3-card-color);
-    word-break: break-word;
-    white-space: normal;
-    padding: 0 4px;
-  }
+  .hw { max-width: 700px; margin: 0 auto; }
+  .hw-hero { text-align: center; padding: 40px 16px 8px; }
+  .hw-hero h1 { margin: 0; font-size: 2.4rem; letter-spacing: -0.02em; line-height: 1.2; }
+  .hw-hero p { font-size: 1.1rem; color: var(--text-secondary); margin: 12px 0 20px; line-height: 1.6; }
+  .hw-stats { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 20px 0 0; }
+  .hw-stat { display: flex; flex-direction: column; align-items: center; }
+  .hw-stat-num { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .hw-stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .hw-section { border: 1px solid var(--border); border-radius: var(--border-radius); padding: 24px; margin-bottom: 28px; background: var(--surface-alt); }
+  .hw-section-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 16px; color: var(--text); }
+
+  .hw-feature-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--card-shadow); transition: all 0.2s cubic-bezier(0.25,0.8,0.25,1); position: relative; overflow: hidden; }
+  .hw-feature-card:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
+  .hw-feature-badge { position: absolute; top: 12px; right: 12px; background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .hw-feature-row { display: flex; align-items: center; gap: 20px; }
+  .hw-feature-icon { width: 56px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border-radius: 12px; overflow: hidden; }
+  .hw-feature-icon img { width: 100%; height: 100%; object-fit: contain; padding: 8px; box-sizing: border-box; }
+  .hw-feature-info { flex: 1; min-width: 0; }
+  .hw-feature-info h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--h3-card-color); }
+  .hw-feature-info p { margin: 4px 0 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+
+  .hw-ring-wrap { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .hw-ring { width: 52px; height: 52px; border-radius: 50%; position: relative; }
+  .hw-ring svg { transform: rotate(-90deg); }
+  .hw-ring-bg { fill: none; stroke: #e8e8e8; stroke-width: 4; }
+  .hw-ring-fg { fill: none; stroke: var(--accent); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+  .hw-ring-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.75rem; font-weight: 700; color: var(--text); }
+
+  .hw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .hw-card { text-decoration: none; color: inherit; display: block; }
+  .hw-card-inner { background: var(--surface); padding: 20px 12px; border-radius: var(--border-radius); border: 1px solid var(--border-light); display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; box-sizing: border-box; cursor: pointer; box-shadow: var(--card-shadow); transition: all 0.2s cubic-bezier(0.25,0.8,0.25,1); }
+  .hw-card-inner:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
+  .hw-card-icon { width: 48px; height: 48px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+  .hw-card-icon img { width: 100%; height: 100%; object-fit: contain; padding: 6px; box-sizing: border-box; }
+  .hw-card-inner h3 { font-size: 0.85rem; margin: 0; font-weight: 600; line-height: 1.3; color: var(--h3-card-color); word-break: break-word; }
+
   @media (max-width: 768px) {
-    .course-grid {
-      grid-template-columns: repeat(3, 1fr) !important;
-      gap: 8px !important;
-    }
-    .section-wrap {
-      padding: 10px !important;
-    }
-    .course-card-inner {
-      padding: 12px 8px !important;
-      border-radius: 12px !important;
-    }
-    .course-card-inner h3 {
-      font-size: 0.8rem !important;
-      word-wrap: break-word;
-    }
-    .icon-container {
-      width: 36px !important;
-      height: 36px !important;
-      margin-bottom: 8px !important;
-    }
+    .hw-hero h1 { font-size: 1.7rem; }
+    .hw-stats { gap: 16px; }
+    .hw-stat-num { font-size: 1.3rem; }
+    .hw-section { padding: 16px; }
+    .hw-feature-row { flex-direction: column; text-align: center; }
+    .hw-feature-icon { width: 48px; height: 48px; }
+    .hw-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .hw-card-inner { padding: 12px 8px; border-radius: 12px; }
+    .hw-card-inner h3 { font-size: 0.78rem; }
+    .hw-card-icon { width: 36px; height: 36px; margin-bottom: 8px; }
+    .hw-ring-wrap { margin: 0 auto; }
   }
 </style>
 
-<div style="background: transparent; box-shadow: none; padding: 10px 0;">
-  <div style="text-align:center;padding:32px 16px 8px;max-width:600px;margin:0 auto;">
-    <h1 style="margin:0;font-size:2rem;letter-spacing:-0.02em;">Learn data analytics, free.</h1>
-    <p style="font-size:1.05rem;color:var(--text-secondary);margin:12px 0 0;line-height:1.6;">SQL, Excel, Power BI, Tableau — cheatsheets with 250+ formulas each. No sign-up, no fluff.</p>
+<div class="hw">
+  <div class="hw-hero">
+    <h1>Learn data analytics, free.</h1>
+    <p>SQL, Excel, Power BI, Tableau — interactive projects and cheatsheets with 250+ formulas each. No sign-up, no fluff.</p>
+    <div class="hw-stats">
+      <div class="hw-stat"><span class="hw-stat-num">50</span><span class="hw-stat-label">SQL Problems</span></div>
+      <div class="hw-stat"><span class="hw-stat-num">250+</span><span class="hw-stat-label">Formulas</span></div>
+      <div class="hw-stat"><span class="hw-stat-num">4</span><span class="hw-stat-label">Subjects</span></div>
+      <div class="hw-stat"><span class="hw-stat-num" id="hwSolvedCount">0</span><span class="hw-stat-label">Solved</span></div>
+    </div>
   </div>
-  <div class="section-wrap" style="margin-top:24px;">
-    <div class="course-grid">
-      <a class="course-card" href="/cheatsheet/">
-        <div class="course-card-inner">
-          <div class="card-content">
-            <div class="icon-container">
-              <img src="/assets/images/cheatsheet-icon.svg" alt="Cheatsheet">
-            </div>
-            <div class="card-text-wrap">
-              <h3>Cheatsheet</h3>
-            </div>
+
+  <div class="hw-section">
+    <h2 class="hw-section-title">Featured</h2>
+    <a class="hw-feature-card" href="/sql-project/">
+      <span class="hw-feature-badge">New</span>
+      <div class="hw-feature-row">
+        <div class="hw-feature-icon">
+          <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY" alt="SQL Project">
+        </div>
+        <div class="hw-feature-info">
+          <h3>SQL: 50 Real-Time YouTube Analytics Challenges</h3>
+          <p>Solve real SQL problems using YouTube data — basic SELECT to advanced CTEs and window functions. Interactive editor with instant validation.</p>
+        </div>
+        <div class="hw-ring-wrap">
+          <div class="hw-ring" id="hwProgressRing">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <circle class="hw-ring-bg" cx="26" cy="26" r="22"></circle>
+              <circle class="hw-ring-fg" id="hwRingFg" cx="26" cy="26" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"></circle>
+            </svg>
+            <span class="hw-ring-label" id="hwRingLabel">0%</span>
           </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="hw-section">
+    <h2 class="hw-section-title">Cheatsheets</h2>
+    <div class="hw-grid">
+      <a class="hw-card" href="/cheatsheet/">
+        <div class="hw-card-inner">
+          <div class="hw-card-icon"><img src="/assets/images/cheatsheet-icon.svg" alt="All"></div>
+          <h3>All Cheatsheets</h3>
         </div>
       </a>
     </div>
   </div>
 
   {% if site.posts.size > 0 %}
-  <div class="section-wrap">
-    <div class="course-grid">
+  <div class="hw-section">
+    <h2 class="hw-section-title">Blog</h2>
+    <div class="hw-grid">
       {% for post in site.posts %}
-      <a class="course-card" href="{{ post.url }}">
-        <div class="course-card-inner">
-          <div class="card-content">
-            <div class="icon-container">
-              <img src="/assets/images/blog-icon.svg" alt="Blog">
-            </div>
-            <div class="card-text-wrap">
-              <h3>{{ post.title }}</h3>
-            </div>
-          </div>
+      <a class="hw-card" href="{{ post.url }}">
+        <div class="hw-card-inner">
+          <div class="hw-card-icon"><img src="/assets/images/blog-icon.svg" alt="Blog"></div>
+          <h3>{{ post.title }}</h3>
         </div>
       </a>
       {% endfor %}
@@ -151,3 +122,26 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   </div>
   {% endif %}
 </div>
+
+<script>
+(function() {
+  var solved = {};
+  try { var st = localStorage.getItem('sqlSolved'); if (st) solved = JSON.parse(st); } catch(e) {}
+  var count = Object.keys(solved).length;
+  var total = 50;
+  var pct = Math.round(count / total * 100);
+
+  var countEl = document.getElementById('hwSolvedCount');
+  if (countEl) countEl.textContent = count;
+
+  var ring = document.getElementById('hwRingFg');
+  var label = document.getElementById('hwRingLabel');
+  if (ring && label) {
+    var circumference = 2 * Math.PI * 22;
+    var offset = circumference - (pct / 100) * circumference;
+    ring.setAttribute('stroke-dasharray', circumference);
+    ring.setAttribute('stroke-dashoffset', offset);
+    label.textContent = pct + '%';
+  }
+})();
+</script>

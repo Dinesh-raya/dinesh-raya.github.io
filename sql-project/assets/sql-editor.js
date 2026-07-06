@@ -11,6 +11,17 @@
       .replace(/>/g, '&gt;');
   }
 
+  function arraysEqual(a, b) {
+    if (a.length !== b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].length !== b[i].length) return false;
+      for (var j = 0; j < a[i].length; j++) {
+        if (String(a[i][j]) !== String(b[i][j])) return false;
+      }
+    }
+    return true;
+  }
+
   function formatValue(v) {
     if (v === null || v === undefined) return '<span class="null-value">NULL</span>';
     if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE';
@@ -23,14 +34,20 @@
     el.innerHTML = '<div class="result-error">' + escapeHtml(msg) + '</div>';
   }
 
-  function showResult(columns, rows) {
+  function showResult(columns, rows, valid) {
     var el = document.getElementById('resultArea');
     if (!el) return;
+    var h = '';
+    if (valid === true) {
+      h += '<div class="validation-badge valid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Correct!</div>';
+    } else if (valid === false) {
+      h += '<div class="validation-badge invalid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Incorrect — output doesn\'t match expected</div>';
+    }
     if (!rows || rows.length === 0) {
-      el.innerHTML = '<div class="result-empty">Query executed successfully. No rows returned.</div>';
+      el.innerHTML = h + '<div class="result-empty">Query executed successfully. No rows returned.</div>';
       return;
     }
-    var h = '<table class="data-table"><thead><tr>';
+    h += '<table class="data-table"><thead><tr>';
     columns.forEach(function (c) { h += '<th>' + escapeHtml(c) + '</th>'; });
     h += '</tr></thead><tbody>';
     rows.forEach(function (r) {
@@ -141,11 +158,34 @@
     if (statusEl) statusEl.textContent = 'Running...';
     try {
       var results = db.exec(sql);
+      var columns = [], rows = [];
       if (results && results.length > 0) {
         var r = results[0];
-        showResult(r.columns, r.values);
-      } else {
-        showResult([], []);
+        columns = r.columns;
+        rows = r.values;
+      }
+      var problem = window.__currentProblem;
+      var expected = problem && problem.expected_output;
+      var valid = undefined;
+      if (expected && expected.columns && expected.rows) {
+        var colMatch = expected.columns.length === columns.length;
+        if (colMatch) {
+          for (var i = 0; i < expected.columns.length; i++) {
+            if (expected.columns[i] !== columns[i]) { colMatch = false; break; }
+          }
+        }
+        if (colMatch) {
+          valid = arraysEqual(rows, expected.rows);
+        } else {
+          valid = false;
+        }
+      }
+      showResult(columns, rows, valid);
+      if (valid === true) {
+        var markBtn = document.getElementById('markSolvedBtn');
+        if (markBtn && markBtn.textContent !== '\u2713 Solved') {
+          markBtn.click();
+        }
       }
     } catch (e) {
       showError(e.message);
