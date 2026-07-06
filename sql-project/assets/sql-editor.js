@@ -43,6 +43,32 @@
     el.innerHTML = h;
   }
 
+  function renderSampleData(tables) {
+    if (!db) return;
+    var el = document.getElementById('sampleData');
+    if (!el) return;
+    var html = '';
+    tables.forEach(function (tName) {
+      try {
+        var result = db.exec('SELECT * FROM ' + tName + ' LIMIT 5');
+        if (result && result.length > 0) {
+          var r = result[0];
+          html += '<div style="margin-bottom:10px"><strong>' + escapeHtml(tName) + '</strong> <span style="font-size:0.8em;color:var(--text-muted)">(showing ' + Math.min(r.values.length, 5) + ' rows)</span></div>';
+          html += '<table class="data-table"><thead><tr>';
+          r.columns.forEach(function (c) { html += '<th>' + escapeHtml(c) + '</th>'; });
+          html += '</tr></thead><tbody>';
+          r.values.slice(0, 5).forEach(function (row) {
+            html += '<tr>';
+            row.forEach(function (v) { html += '<td>' + formatValue(v) + '</td>'; });
+            html += '</tr>';
+          });
+          html += '</tbody></table>';
+        }
+      } catch(e) {}
+    });
+    el.innerHTML = html || '<div class="result-empty">No sample data available.</div>';
+  }
+
   function initDB(problem) {
     if (!problem) return;
     db.run('PRAGMA foreign_keys = OFF');
@@ -63,6 +89,7 @@
       }
     });
     db.run('PRAGMA foreign_keys = ON');
+    renderSampleData(problem.tables);
   }
 
   function runQuery() {
