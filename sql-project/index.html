@@ -5,21 +5,25 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
 ---
 
 <div class="sql-project-page">
-  <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:8px;">
-    <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY" alt="" style="width:48px;height:48px;border-radius:12px;">
-    <h1 style="margin:0;flex:1;">SQL: 50 Real-Time YouTube Analytics Challenges</h1>
-  </div>
-  <p style="font-size:1.05em;color:var(--text-secondary);margin-bottom:16px;line-height:1.6">
-    Solve simple to advanced SQL problems using real YouTube data, just like a Data Analyst.
-  </p>
+  <div class="project-container">
+    <div class="hero-section">
+      <div class="hero-icon">
+        <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY" alt="YouTube Logo">
+      </div>
+      <div class="hero-text">
+        <h1>SQL: 50 Real-Time YouTube Analytics Challenges</h1>
+        <p>Solve simple to advanced SQL problems using real YouTube data, just like a <span class="magic-text">Data Analyst</span>.</p>
+      </div>
+    </div>
 
-  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
-    <input type="text" id="problemSearch" placeholder="Search problems..." style="flex:1;min-width:200px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:0.9em;background:var(--surface);color:var(--text);outline:none;font-family:inherit;">
-    <span id="statsBar" style="font-size:0.85em;color:var(--text-muted);white-space:nowrap;"></span>
-  </div>
+    <div class="search-row">
+      <input type="text" id="problemSearch" placeholder="Search problems..." class="search-input">
+      <span id="statsBar" class="stats-bar"></span>
+    </div>
 
-  <div id="problemList">
-    <div class="loading">Loading problems...</div>
+    <div id="problemList">
+      <div class="loading">Loading problems...</div>
+    </div>
   </div>
 </div>
 
@@ -45,6 +49,8 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
       var problems = data.problems;
       var categories = [
         { name: 'SELECT', ids: [1,2,3,4,5,6,7,8,9,10] },
+        { name: 'SELECT, ORDER BY, LIMIT', ids: [2] },
+        { name: 'WHERE', ids: [3,4,5,6,7,8,9,10] },
         { name: 'COUNT', ids: [11,12] },
         { name: 'GROUP BY', ids: [13,14,15] },
         { name: 'AVG', ids: [16] },
@@ -85,7 +91,7 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
         var f = (filter || '').toLowerCase();
         var html = '';
         categories.forEach(function(cat) {
-          var catCards = [];
+          var catItems = [];
           cat.ids.forEach(function(id) {
             var p = pMap[id];
             if (!p) return;
@@ -93,19 +99,25 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
             if (f && p.title.toLowerCase().indexOf(f) === -1 && p.topics.join(' ').toLowerCase().indexOf(f) === -1 && p.difficulty.toLowerCase().indexOf(f) === -1) return;
             shown++;
             if (solved[id]) solvedCount++;
-            catCards.push({ id: id, p: p });
+            catItems.push({ id: id, p: p });
           });
-          if (catCards.length === 0) return;
-          html += '<div class="category-group" style="animation:panelIn 0.3s ease both;">';
-          html += '<h3>' + escapeHtml(cat.name) + '</h3>';
-          html += '<div class="problem-grid">';
-          catCards.forEach(function(c, idx) {
-            html += '<a href="/sql-project/solve?id=' + c.id + '" class="problem-card' + (solved[c.id] ? ' solved' : '') + '" style="animation:cardIn 0.25s ease both;animation-delay:' + (idx * 0.03) + 's;">';
-            if (solved[c.id]) html += '<span style="color:#0d7c34;font-size:1em;flex-shrink:0;">&#10003;</span>';
-            html += '<span class="id-badge">' + c.id + '</span>';
-            html += '<div class="info"><div class="title">' + escapeHtml(c.p.title) + '</div>';
-            html += '<div class="topics">' + escapeHtml(c.p.topics.join(', ')) + '</div></div>';
-            html += '<span class="difficulty ' + c.p.difficulty.toLowerCase() + '">' + c.p.difficulty + '</span>';
+          if (catItems.length === 0) return;
+          html += '<div class="category-block">';
+          html += '<div class="category-header">' + escapeHtml(cat.name) + '</div>';
+          html += '<div class="category-items">';
+          catItems.forEach(function(c) {
+            var isSolved = solved[c.id];
+            html += '<a href="/sql-project/solve?id=' + c.id + '" class="question-item' + (isSolved ? ' solved' : '') + '">';
+            html += '<div class="q-status">';
+            if (isSolved) {
+              html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            } else {
+              html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>';
+            }
+            html += '</div>';
+            html += '<div class="q-title">' + c.id + '. ' + escapeHtml(c.p.title) + '</div>';
+            html += '<div class="q-solution"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Solution</div>';
+            html += '<div class="q-difficulty"><span class="diff-' + c.p.difficulty.toLowerCase() + '">' + c.p.difficulty + '</span></div>';
             html += '</a>';
           });
           html += '</div></div>';
