@@ -1219,6 +1219,11 @@ body .solve-page .container {
   background-size: 200% 100%;
 }
 
+.q-card-inner.loading {
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
 /* ========== 18. CUSTOM SCROLLBARS ========== */
 .result-section::-webkit-scrollbar,
 .cheatsheet-sidebar::-webkit-scrollbar,

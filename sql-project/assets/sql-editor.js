@@ -366,6 +366,10 @@
   }
 
   window.switchProblem = function(id, problem) {
+    var qCard = document.querySelector('.q-card-inner');
+    if (qCard) qCard.classList.add('loading');
+    var statusEl = document.getElementById('editorStatus');
+    if (statusEl) statusEl.textContent = 'Loading...';
     _.resetCard();
     if (editor) { editor.toTextArea(); editor = null; }
     try { db.close(); } catch(e) {}
@@ -373,6 +377,8 @@
     window.__currentProblem = problem;
     initDB(problem);
     renderProblem(problem, window.__masterSchema || {});
+    if (qCard) qCard.classList.remove('loading');
+    if (statusEl) statusEl.textContent = 'Ready';
   };
 
   if (document.readyState === 'loading') {

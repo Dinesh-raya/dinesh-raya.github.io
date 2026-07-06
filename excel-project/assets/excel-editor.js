@@ -215,6 +215,10 @@
   };
 
   window.switchProblem = function(id, problem) {
+    var qCard = document.querySelector('.q-card-inner');
+    if (qCard) qCard.classList.add('loading');
+    var statusEl = document.getElementById('editorStatus');
+    if (statusEl) statusEl.textContent = 'Loading...';
     _.resetCard();
     if (editor) { editor.toTextArea(); editor = null; }
     hf = HYPERFORMULA_LIB.buildEmpty({ licenseKey: 'gpl-v3' });
@@ -223,6 +227,8 @@
     window.__currentProblem = problem;
     initHF(problem);
     renderProblem(problem);
+    if (qCard) qCard.classList.remove('loading');
+    if (statusEl) statusEl.textContent = 'Ready';
   };
 
   var toggle = _.toggle;
