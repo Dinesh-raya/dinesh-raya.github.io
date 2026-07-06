@@ -6,6 +6,10 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
 <link rel="stylesheet" href="/sql-project/assets/sql-editor.css">
+<style>
+  .container { max-width:100% !important; padding:0 !important; }
+  .sql-project-page { max-width:100%; padding:20px 5%; }
+</style>
 
 <div class="sql-project-page solve-page">
   <div class="solve-body">
@@ -56,6 +60,11 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
             </div>
             <pre id="solutionSQL"></pre>
           </div>
+
+          <div class="footer-actions">
+            <button class="footer-btn" id="resetBtn">Reset</button>
+            <button class="footer-btn" id="markSolvedBtn">Mark Solved</button>
+          </div>
         </div>
       </div>
     </div>
@@ -79,10 +88,6 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
     </div>
   </div>
 
-  <div class="solve-footer">
-    <button class="footer-btn" id="resetBtn">Reset</button>
-    <button class="footer-btn" id="markSolvedBtn">Mark Solved</button>
-  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
