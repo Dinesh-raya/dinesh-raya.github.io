@@ -38,6 +38,7 @@
     }
     if (!rows || rows.length === 0) {
       el.innerHTML = h + '<div class="result-empty">Query executed successfully. No rows returned.</div>';
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
     var formattedRows = rows.map(function (r) {
@@ -45,6 +46,7 @@
     });
     h += _.buildTable(columns, formattedRows);
     h += '<div class="result-info">' + rows.length + ' row' + (rows.length !== 1 ? 's' : '') + ' returned</div>';
+    h += '<button class="copy-result-btn">Copy Result</button>';
     el.innerHTML = h;
     var table = el.querySelector('.data-table');
     if (table) {
@@ -55,6 +57,14 @@
         }
       });
     }
+    var copyBtn = el.querySelector('.copy-result-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        var text = columns.join('\t') + '\n' + rows.map(function (r) { return r.join('\t'); }).join('\n');
+        _.copyText(text, copyBtn);
+      });
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function padCol(v, len) {

@@ -101,7 +101,8 @@ body .solve-page .container {
   flex-direction: column;
   gap: 15px;
   min-width: 0;
-  height: 1200px;
+  height: auto;
+  min-height: 500px;
 }
 
 /* ========== 2. HERO ========== */
@@ -1145,6 +1146,20 @@ body .solve-page .container {
 .q-card-inner.loading {
   opacity: 0.5;
   transition: opacity 0.2s;
+}
+.copy-result-btn {
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+}
+.copy-result-btn:hover {
+  border-color: var(--color-accent);
 }
 
 /* ========== 18. CUSTOM SCROLLBARS ========== */

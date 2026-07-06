@@ -597,9 +597,14 @@
             if (f && p.title.toLowerCase().indexOf(f) === -1 && p.topics.join(' ').toLowerCase().indexOf(f) === -1 && p.difficulty.toLowerCase().indexOf(f) === -1) return;
             shown++;
             if (solved[id]) solvedCount++;
-            catItems.push({ id: id, p: p });
-          });
-          if (catItems.length === 0) return;
+          catItems.push({ id: id, p: p });
+        });
+        catItems.sort(function(a, b) {
+          if (solved[a.id] && !solved[b.id]) return 1;
+          if (!solved[a.id] && solved[b.id]) return -1;
+          return 0;
+        });
+        if (catItems.length === 0) return;
           html += '<div class="category-block">';
           html += '<div class="category-header">' + escapeHtml(cat.name) + '</div>';
           html += '<div class="category-items">';
@@ -630,6 +635,14 @@
     .catch(function(err) {
       container.innerHTML = '<div class="result-error">Failed to load problems: ' + escapeHtml(err.message) + '</div>';
     });
+
+  container.addEventListener('click', function(e) {
+    var link = e.target.closest('.question-item');
+    if (link) sessionStorage.setItem('gridScrollY', window.scrollY);
+  });
+
+  var saved = sessionStorage.getItem('gridScrollY');
+  if (saved) { sessionStorage.removeItem('gridScrollY'); window.scrollTo(0, parseInt(saved, 10)); }
 })();
 </script>
 

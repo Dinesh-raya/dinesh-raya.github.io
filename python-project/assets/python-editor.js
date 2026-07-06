@@ -18,6 +18,7 @@
     }
     if (!output && output !== 0) {
       el.innerHTML = h + '<div class="result-empty">Code executed successfully. No output.</div>';
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
     var outputStr = String(output);
@@ -26,7 +27,15 @@
     } else {
       h += '<div class="result-console"><pre>' + escapeHtml(outputStr) + '</pre></div>';
     }
+    h += '<button class="copy-result-btn">Copy Result</button>';
     el.innerHTML = h;
+    var copyBtn = el.querySelector('.copy-result-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        _.copyText(outputStr.replace(/<[^>]+>/g, ''), copyBtn);
+      });
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function initPyodide() {

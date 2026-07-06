@@ -52,6 +52,25 @@
     });
   };
 
+  S.copyText = function (text, btn) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied!';
+        setTimeout(function () { btn.textContent = 'Copy Result'; }, 2000);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Copied!';
+      setTimeout(function () { btn.textContent = 'Copy Result'; }, 2000);
+    }
+  };
+
   S.fetchJson = function (url) {
     var cacheKey = 'json_' + url;
     try {

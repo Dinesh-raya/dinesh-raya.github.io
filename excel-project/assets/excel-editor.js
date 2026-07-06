@@ -19,11 +19,20 @@
     }
     if (value === null || value === undefined) {
       el.innerHTML = h + '<div class="result-empty">Formula evaluated to an empty result.</div>';
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
     var display = typeof value === 'string' ? '"' + escapeHtml(value) + '"' : escapeHtml(String(value));
     h += '<div class="result-value">Result: <strong>' + display + '</strong></div>';
+    h += '<button class="copy-result-btn">Copy Result</button>';
     el.innerHTML = h;
+    var copyBtn = el.querySelector('.copy-result-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        _.copyText(String(value), copyBtn);
+      });
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function formatCellRef(col, row) {
