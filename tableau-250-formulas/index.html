@@ -628,6 +628,25 @@
     background: #222;
   }
 
+  .cheatsheet-main .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--back-link);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 999px;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .cheatsheet-main .back-link:hover {
+    color: var(--back-link-hover);
+    border-color: var(--back-link);
+    background: var(--surface-alt);
+  }
+
   @media (max-width: 850px) {
     .cheatsheet-wrap {
       flex-direction: column;
@@ -769,6 +788,10 @@
   </aside>
 
   <main class="cheatsheet-main">
+    <a href="/cheatsheet/" class="back-link" style="margin-bottom:16px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      All Cheatsheets
+    </a>
     <input type="text" id="cheatSearch" placeholder="Search formulas..." autocomplete="off">
     <h2 id="tableau-250-formulas">Tableau 250+ Formulas</h2>
 
