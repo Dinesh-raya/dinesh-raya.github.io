@@ -204,7 +204,6 @@
         _.saveCardTemplate();
         initHF(problem);
         renderProblem(problem);
-        _.initProblemNav({ url: '/excel-project/problems.json', onSwitch: window.switchProblem });
         document.getElementById('runBtn').addEventListener('click', runFormula);
         document.getElementById('resetBtn').addEventListener('click', resetFormula);
         if (statusEl) statusEl.textContent = 'Ready';

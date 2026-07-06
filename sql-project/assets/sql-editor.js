@@ -229,7 +229,6 @@
           _.saveCardTemplate();
           initDB(problem);
           renderProblem(problem, window.__masterSchema);
-          _.initProblemNav({ url: '/sql-project/problems.json', onSwitch: window.switchProblem });
           document.getElementById('runBtn').addEventListener('click', runQuery);
           document.getElementById('resetBtn').addEventListener('click', resetDB);
           if (statusEl) statusEl.textContent = 'Ready';

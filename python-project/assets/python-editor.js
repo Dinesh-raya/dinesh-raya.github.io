@@ -67,7 +67,6 @@
         window.__currentProblem = problem;
         _.saveCardTemplate();
         renderProblem(problem);
-        _.initProblemNav({ url: '/python-project/problems.json', onSwitch: window.switchProblem });
         document.getElementById('runBtn').addEventListener('click', runPython);
         document.getElementById('resetBtn').addEventListener('click', resetCode);
       })
