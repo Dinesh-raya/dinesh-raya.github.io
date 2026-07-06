@@ -203,11 +203,22 @@
         window.__currentProblem = problem;
         initHF(problem);
         renderProblem(problem);
+        _.initProblemNav({ url: '/excel-project/problems.json', onSwitch: window.switchProblem });
         if (statusEl) statusEl.textContent = 'Ready';
       })
       .catch(function (err) {
         showError('Failed to load problem data: ' + err.message);
       });
+  };
+
+  window.switchProblem = function(id, problem) {
+    if (editor) { editor.toTextArea(); editor = null; }
+    hf = HYPERFORMULA_LIB.buildEmpty({ licenseKey: 'gpl-v3' });
+    hf.addSheet('Sheet1');
+    sheetId = 0;
+    window.__currentProblem = problem;
+    initHF(problem);
+    renderProblem(problem);
   };
 
   var toggle = _.toggle;

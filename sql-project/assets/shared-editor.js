@@ -196,6 +196,95 @@
     });
   };
 
+  var navInstance = null;
+
+  S.initProblemNav = function(config) {
+    if (navInstance) return navInstance;
+    var el = document.getElementById('problemNav');
+    if (!el) return null;
+
+    var state = { problems: [], filtered: [], currentIdx: 0, config: config };
+
+    function goTo(id) {
+      var idx = state.filtered.findIndex(function(p) { return p.id === id; });
+      if (idx === -1) return;
+      state.currentIdx = idx;
+      var p = state.filtered[idx];
+      history.replaceState(null, '', '?id=' + id);
+      config.onSwitch(id, p);
+      document.getElementById('problemCounter').textContent = (idx + 1) + ' / ' + state.filtered.length;
+      var listEl = document.getElementById('problemList');
+      if (listEl) {
+        listEl.querySelectorAll('.pl-item').forEach(function(el) { el.classList.remove('active'); });
+        var active = listEl.querySelector('.pl-item[data-id="' + id + '"]');
+        if (active) active.classList.add('active');
+      }
+    }
+
+    function applyFilters() {
+      var searchInput = document.getElementById('problemSearch');
+      var diffFilter = document.getElementById('difficultyFilter');
+      var q = (searchInput ? searchInput.value : '').toLowerCase().trim();
+      var diff = diffFilter ? diffFilter.value : '';
+      state.filtered = state.problems.filter(function(p) {
+        if (q && p.title.toLowerCase().indexOf(q) === -1 && String(p.id).indexOf(q) === -1) return false;
+        if (diff && p.difficulty && p.difficulty.toLowerCase() !== diff) return false;
+        return true;
+      });
+      var curId = parseInt(new URLSearchParams(window.location.search).get('id'), 10);
+      state.currentIdx = state.filtered.findIndex(function(p) { return p.id === curId; });
+      if (state.currentIdx === -1) state.currentIdx = 0;
+      var counter = document.getElementById('problemCounter');
+      if (counter) counter.textContent = state.filtered.length ? (state.currentIdx + 1) + ' / ' + state.filtered.length : '0 / 0';
+      renderList();
+    }
+
+    function renderList() {
+      var listEl = document.getElementById('problemList');
+      if (!listEl) return;
+      listEl.innerHTML = state.filtered.map(function(p) {
+        var active = p.id === parseInt(new URLSearchParams(window.location.search).get('id'), 10);
+        return '<div class="pl-item' + (active ? ' active' : '') + '" data-id="' + p.id + '">' + p.id + '. ' + S.escapeHtml(p.title) + '</div>';
+      }).join('');
+      listEl.querySelectorAll('.pl-item').forEach(function(item) {
+        item.addEventListener('click', function() { goTo(parseInt(this.getAttribute('data-id'), 10)); });
+      });
+    }
+
+    S.fetchJson(config.url).then(function(data) {
+      state.problems = data.problems;
+      applyFilters();
+
+      var diffFilter = document.getElementById('difficultyFilter');
+      if (diffFilter) {
+        var diffs = {};
+        data.problems.forEach(function(p) { if (p.difficulty) diffs[p.difficulty] = 1; });
+        Object.keys(diffs).sort().forEach(function(d) {
+          var opt = document.createElement('option');
+          opt.value = d.toLowerCase();
+          opt.textContent = d;
+          diffFilter.appendChild(opt);
+        });
+      }
+
+      document.getElementById('prevBtn') && document.getElementById('prevBtn').addEventListener('click', function() {
+        if (state.currentIdx > 0) goTo(state.filtered[state.currentIdx - 1].id);
+      });
+      document.getElementById('nextBtn') && document.getElementById('nextBtn').addEventListener('click', function() {
+        if (state.currentIdx < state.filtered.length - 1) goTo(state.filtered[state.currentIdx + 1].id);
+      });
+      document.getElementById('randomBtn') && document.getElementById('randomBtn').addEventListener('click', function() {
+        if (state.filtered.length) goTo(state.filtered[Math.floor(Math.random() * state.filtered.length)].id);
+      });
+      var searchInput = document.getElementById('problemSearch');
+      if (searchInput) searchInput.addEventListener('input', applyFilters);
+      if (diffFilter) diffFilter.addEventListener('change', applyFilters);
+    });
+
+    navInstance = state;
+    return state;
+  };
+
   S.showPlaceholder = function () {
     var el = document.getElementById('resultArea');
     if (!el) return;

@@ -225,8 +225,10 @@
           var problem = data.problems.find(function (p) { return p.id === id; });
           if (!problem) { showError('Problem #' + id + ' not found.'); return; }
           window.__currentProblem = problem;
+          window.__masterSchema = data.schema || {};
           initDB(problem);
-          renderProblem(problem, data.schema);
+          renderProblem(problem, window.__masterSchema);
+          _.initProblemNav({ url: '/sql-project/problems.json', onSwitch: window.switchProblem });
           if (statusEl) statusEl.textContent = 'Ready';
         })
         .catch(function (err) {
@@ -362,6 +364,15 @@
     });
     _.showPlaceholder();
   }
+
+  window.switchProblem = function(id, problem) {
+    if (editor) { editor.toTextArea(); editor = null; }
+    try { db.close(); } catch(e) {}
+    db = new SQL.Database();
+    window.__currentProblem = problem;
+    initDB(problem);
+    renderProblem(problem, window.__masterSchema || {});
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', window.initSQLProject);
