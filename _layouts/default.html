@@ -46,33 +46,31 @@
       --accent-hover: #1e5bc0;
       --border-radius: 20px;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f0f0f;
-        --surface: #1a1a1a;
-        --surface-alt: #222222;
-        --text: #e5e5e5;
-        --text-secondary: #b0b0b0;
-        --text-muted: #888888;
-        --text-light: #666666;
-        --border: #333333;
-        --border-light: #2a2a2a;
-        --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
-        --card-shadow-hover: 0 8px 32px rgba(0,0,0,0.6);
-        --inline-code-bg: #2a2a2a;
-        --blockquote-bg: #1a1a1a;
-        --blockquote-color: #999999;
-        --table-header-bg: #222222;
-        --table-border: #333333;
-        --h3-card-color: #e5e5e5;
-        --icon-bg: #1a1a1a;
-        --copyright-color: #888888;
-        --footer-link: #666666;
-        --back-link: #999999;
-        --back-link-hover: #ffffff;
-        --link-color: #e5e5e5;
-        --hr-color: #333333;
-      }
+    html.dark {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface-alt: #222222;
+      --text: #e5e5e5;
+      --text-secondary: #b0b0b0;
+      --text-muted: #888888;
+      --text-light: #666666;
+      --border: #333333;
+      --border-light: #2a2a2a;
+      --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --card-shadow-hover: 0 8px 32px rgba(0,0,0,0.6);
+      --inline-code-bg: #2a2a2a;
+      --blockquote-bg: #1a1a1a;
+      --blockquote-color: #999999;
+      --table-header-bg: #222222;
+      --table-border: #333333;
+      --h3-card-color: #e5e5e5;
+      --icon-bg: #1a1a1a;
+      --copyright-color: #888888;
+      --footer-link: #666666;
+      --back-link: #999999;
+      --back-link-hover: #ffffff;
+      --link-color: #e5e5e5;
+      --hr-color: #333333;
     }
     html { scroll-padding-top: 80px; }
     * {
@@ -122,6 +120,19 @@
     header nav a:hover {
       opacity: 1;
     }
+    .theme-toggle {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 6px 10px;
+      line-height: 1;
+      border-radius: 6px;
+      transition: border-color 0.2s, opacity 0.2s;
+      opacity: 0.7;
+    }
+    .theme-toggle:hover { opacity: 1; border-color: rgba(255,255,255,0.5); }
     .menu-toggle {
       display: none;
       background: none;
@@ -256,6 +267,7 @@
     <a href="/excel-project/">Excel Project</a>
     <a href="/python-project/">Python Project</a>
     <a href="/admin/">Manage</a>
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle dark mode" style="margin-top:12px;width:100%;text-align:center;padding:12px;border-color:rgba(255,255,255,0.15);font-size:15px">🌙 Dark Mode</button>
   </div>
 
   <header>
@@ -270,6 +282,7 @@
       <a href="/python-project/">Python Project</a>
       <a href="/admin/">Manage</a>
     </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
     <button class="menu-toggle" id="menuToggle">☰</button>
   </header>
 
@@ -291,6 +304,25 @@
 
   <script>
     (function() {
+      var stored = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var isDark = stored ? stored === 'dark' : prefersDark;
+      if (isDark) document.documentElement.classList.add('dark');
+      var themeBtn = document.getElementById('themeToggle');
+      var themeBtnMob = document.getElementById('themeToggleMobile');
+      function setTheme(dark) {
+        isDark = dark;
+        document.documentElement.classList.toggle('dark', dark);
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        var label = dark ? '☀️' : '🌙';
+        var text = dark ? '☀️ Light' : '🌙 Dark';
+        if (themeBtn) themeBtn.textContent = label;
+        if (themeBtnMob) themeBtnMob.innerHTML = text;
+      }
+      function toggleTheme() { setTheme(!isDark); }
+      if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+      if (themeBtnMob) themeBtnMob.addEventListener('click', toggleTheme);
+
       var toggle = document.getElementById('menuToggle');
       var nav = document.getElementById('mobileNav');
       var overlay = document.getElementById('mobileOverlay');
@@ -337,6 +369,7 @@
           if (e.key === 'Escape' && isOpen()) closeMenu();
         });
       }
+
     })();
   </script>
 </body>
