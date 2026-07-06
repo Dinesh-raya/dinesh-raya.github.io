@@ -38,7 +38,8 @@
   {% endif %}
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
   <style>
     :root {
       --bg: #F3F3F3;
@@ -490,7 +491,6 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
   </button>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli" crossorigin="anonymous"></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js');
@@ -562,115 +562,125 @@
         });
       }
 
+      // Search — only initialise if search button exists on this page
       var searchBtn = document.getElementById('searchBtn');
-      var searchOverlay = document.getElementById('searchOverlay');
-      var searchClose = document.getElementById('searchClose');
-      var searchInput = document.getElementById('searchInput');
-      var searchResults = document.getElementById('searchResults');
-      var searchStatus = document.getElementById('searchStatus');
-      var lunrIndex = null;
-      var searchTimer = null;
-      var docs = {};
+      if (searchBtn) {
+        var searchOverlay = document.getElementById('searchOverlay');
+        var searchClose = document.getElementById('searchClose');
+        var searchInput = document.getElementById('searchInput');
+        var searchResults = document.getElementById('searchResults');
+        var searchStatus = document.getElementById('searchStatus');
+        var lunrIndex = null;
+        var searchTimer = null;
+        var docs = {};
+        var loadingLunr = false;
 
-      function openSearch() {
-        if (!searchOverlay) return;
-        searchOverlay.classList.add('active');
-        setTimeout(function() {
-          searchInput && searchInput.focus();
-        }, 100);
-      }
-      function closeSearch() {
-        searchOverlay && searchOverlay.classList.remove('active');
-      }
-
-      function stripHTML(str) {
-        return str.replace(/<[^>]*>/g, '');
-      }
-
-      function doSearch() {
-        searchTimer = null;
-        var query = searchInput.value.trim();
-        if (query.length < 2) {
-          searchResults.innerHTML = '';
-          searchStatus.textContent = 'Type to search...';
-          return;
+        function openSearch() {
+          if (!searchOverlay) return;
+          searchOverlay.classList.add('active');
+          if (!searchTimer) loadLunr();
+          setTimeout(function() { searchInput && searchInput.focus(); }, 100);
         }
-        if (!lunrIndex) {
-          searchStatus.textContent = 'Loading search index...';
-          return;
+
+        function loadLunr() {
+          if (loadingLunr || lunrIndex) return;
+          loadingLunr = true;
+          var s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js';
+          s.integrity = 'sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli';
+          s.crossOrigin = 'anonymous';
+          s.onload = loadSearchIndex;
+          s.onerror = function() { searchStatus && (searchStatus.textContent = 'Search unavailable.'); };
+          document.body.appendChild(s);
         }
-        searchStatus.textContent = 'Searching...';
-        try {
-          var results = lunrIndex.search(query);
-          if (results.length === 0) {
-            searchStatus.textContent = 'No results found.';
+
+        function closeSearch() {
+          searchOverlay && searchOverlay.classList.remove('active');
+        }
+
+        function stripHTML(str) {
+          return str.replace(/<[^>]*>/g, '');
+        }
+
+        function doSearch() {
+          searchTimer = null;
+          var query = searchInput.value.trim();
+          if (query.length < 2) {
             searchResults.innerHTML = '';
+            searchStatus.textContent = 'Type to search...';
             return;
           }
-          searchStatus.textContent = '';
-          searchResults.innerHTML = results.slice(0, 12).map(function(r) {
-            var doc = docs[r.ref];
-            if (!doc) return '';
-            var content = doc.content || '';
-            var idx = content.toLowerCase().indexOf(query.toLowerCase());
-            var start = idx > 40 ? idx - 40 : 0;
-            var excerpt = content.substring(start, start + 160);
-            return '<li><a href="' + doc.url + '"><div class="result-title">' + doc.title + '</div><div class="result-excerpt">' + stripHTML(excerpt) + '</div></a></li>';
-          }).join('');
-        } catch (e) {
-          searchStatus.textContent = 'Search error.';
-        }
-      }
-
-      function onSearchInput() {
-        searchTimer && clearTimeout(searchTimer);
-        searchTimer = setTimeout(doSearch, 200);
-      }
-
-      function loadSearchIndex() {
-        fetch('/search.json').then(function(res) {
-          return res.json();
-        }).then(function(data) {
-          docs = {};
-          var items = [];
-          data.forEach(function(d, i) {
-            if (d.title && d.url) {
-              var item = { title: d.title, url: d.url, content: d.content || '' };
-              items.push(item);
-              docs[i] = item;
+          if (!lunrIndex) {
+            if (!loadingLunr) loadLunr();
+            searchStatus.textContent = 'Loading search index...';
+            return;
+          }
+          searchStatus.textContent = 'Searching...';
+          try {
+            var results = lunrIndex.search(query);
+            if (results.length === 0) {
+              searchStatus.textContent = 'No results found.';
+              searchResults.innerHTML = '';
+              return;
             }
-          });
-          lunrIndex = lunr(function() {
-            this.ref('ref');
-            this.field('title');
-            this.field('content');
-            var self = this;
-            items.forEach(function(item, idx) {
-              item.ref = idx;
-              self.add(item);
+            searchStatus.textContent = '';
+            searchResults.innerHTML = results.slice(0, 12).map(function(r) {
+              var doc = docs[r.ref];
+              if (!doc) return '';
+              var content = doc.content || '';
+              var idx = content.toLowerCase().indexOf(query.toLowerCase());
+              var start = idx > 40 ? idx - 40 : 0;
+              var excerpt = content.substring(start, start + 160);
+              return '<li><a href="' + doc.url + '"><div class="result-title">' + doc.title + '</div><div class="result-excerpt">' + stripHTML(excerpt) + '</div></a></li>';
+            }).join('');
+          } catch (e) {
+            searchStatus.textContent = 'Search error.';
+          }
+        }
+
+        function onSearchInput() {
+          searchTimer && clearTimeout(searchTimer);
+          searchTimer = setTimeout(doSearch, 200);
+        }
+
+        function loadSearchIndex() {
+          fetch('/search.json').then(function(res) { return res.json(); }).then(function(data) {
+            docs = {};
+            var items = [];
+            data.forEach(function(d, i) {
+              if (d.title && d.url) {
+                var item = { title: d.title, url: d.url, content: d.content || '' };
+                items.push(item);
+                docs[i] = item;
+              }
             });
+            lunrIndex = lunr(function() {
+              this.ref('ref');
+              this.field('title');
+              this.field('content');
+              var self = this;
+              items.forEach(function(item, idx) {
+                item.ref = idx;
+                self.add(item);
+              });
+            });
+            searchStatus && (searchStatus.textContent = lunrIndex ? 'Ready. Type to search...' : 'Search unavailable.');
+          }).catch(function(err) {
+            searchStatus && (searchStatus.textContent = 'Search unavailable.');
           });
-        }).catch(function(err) {
-          searchStatus && (searchStatus.textContent = 'Search unavailable.');
+        }
+
+        searchBtn.addEventListener('click', openSearch);
+        searchClose && searchClose.addEventListener('click', closeSearch);
+        searchOverlay && searchOverlay.addEventListener('click', function(e) {
+          if (e.target === searchOverlay) closeSearch();
+        });
+        searchInput && searchInput.addEventListener('input', onSearchInput);
+        document.addEventListener('keydown', function(e) {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+          if (e.key === 'Escape' && searchOverlay && searchOverlay.classList.contains('active')) closeSearch();
         });
       }
-
-      searchBtn && searchBtn.addEventListener('click', openSearch);
-      searchClose && searchClose.addEventListener('click', closeSearch);
-      searchOverlay && searchOverlay.addEventListener('click', function(e) {
-        if (e.target === searchOverlay) closeSearch();
-      });
-      searchInput && searchInput.addEventListener('input', onSearchInput);
-      document.addEventListener('keydown', function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-          e.preventDefault();
-          openSearch();
-        }
-        if (e.key === 'Escape' && searchOverlay && searchOverlay.classList.contains('active')) {
-          closeSearch();
-        }
-      });
-      loadSearchIndex();
     })();
 
     // Active nav state

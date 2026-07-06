@@ -5,8 +5,7 @@ var PRECACHE = [
   'https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js',
   'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/material.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/material.css'
 ];
 
 self.addEventListener('install', function(e) {
