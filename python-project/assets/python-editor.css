@@ -1,0 +1,46 @@
+/* ============================================
+   Python Project — Overrides & Additions
+   ============================================ */
+
+.setup-box {
+  margin: 8px 0 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg, 8px);
+  padding: var(--space-md, 16px);
+  background: #f9fafb;
+}
+.setup-box .sub-label {
+  margin-top: 0;
+}
+.setup-box pre {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+  font-family: ui-monospace, 'SF Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+.result-console {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  border-radius: var(--radius-md, 8px);
+  overflow: auto;
+  max-height: 400px;
+}
+.result-console pre {
+  margin: 0;
+  padding: 16px;
+  font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.editor-container .CodeMirror {
+  height: 250px;
+  font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;
+  font-size: 14px;
+}
