@@ -39,7 +39,8 @@
   color: var(--color-accent, #276ef1);
 }
 .editor-container .CodeMirror {
-  height: 40px;
+  height: 44px;
+  min-height: 44px;
   font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;
   font-size: 16px;
 }

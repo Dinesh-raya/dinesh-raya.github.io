@@ -150,7 +150,7 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
       searchInput.addEventListener('input', function() { render(this.value); });
     })
     .catch(function(err) {
-      container.innerHTML = '<div class="result-error">Failed to load problems: ' + err.message + '</div>';
+      container.innerHTML = '<div class="result-error">Failed to load problems: ' + escapeHtml(err.message) + '</div>';
     });
 })();
 </script>

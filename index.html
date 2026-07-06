@@ -17,7 +17,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   .hw-section { border: 1px solid var(--border); border-radius: var(--border-radius); padding: 24px; margin-bottom: 28px; background: var(--surface-alt); }
   .hw-section-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 16px; color: var(--text); }
 
-  .hw-feature-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--card-shadow); transition: all 0.2s cubic-bezier(0.25,0.8,0.25,1); position: relative; overflow: hidden; }
+  .hw-feature-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--card-shadow); transition: transform 0.2s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.2s cubic-bezier(0.25,0.8,0.25,1), border-color 0.2s; position: relative; overflow: hidden; }
   .hw-feature-card:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
   .hw-feature-badge { position: absolute; top: 12px; right: 12px; background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
   .hw-feature-row { display: flex; align-items: center; gap: 20px; }
@@ -36,7 +36,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
 
   .hw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
   .hw-card { text-decoration: none; color: inherit; display: block; }
-  .hw-card-inner { background: var(--surface); padding: 20px 12px; border-radius: var(--border-radius); border: 1px solid var(--border-light); display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; box-sizing: border-box; cursor: pointer; box-shadow: var(--card-shadow); transition: all 0.2s cubic-bezier(0.25,0.8,0.25,1); }
+  .hw-card-inner { background: var(--surface); padding: 20px 12px; border-radius: var(--border-radius); border: 1px solid var(--border-light); display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; box-sizing: border-box; cursor: pointer; box-shadow: var(--card-shadow); transition: transform 0.2s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.2s cubic-bezier(0.25,0.8,0.25,1), border-color 0.2s; }
   .hw-card-inner:hover { border-color: var(--text); transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
   .hw-card-icon { width: 48px; height: 48px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; background: var(--icon-bg); border-radius: 10px; overflow: hidden; flex-shrink: 0; }
   .hw-card-icon img { width: 100%; height: 100%; object-fit: contain; padding: 6px; box-sizing: border-box; }
@@ -75,7 +75,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
       <span class="hw-feature-badge">New</span>
       <div class="hw-feature-row">
         <div class="hw-feature-icon">
-          <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY" alt="SQL Project">
+          <img src="https://play-lh.googleusercontent.com/6am0i3walYwNLc08QOOhRJttQENNGkhlKajXSERf3JnPVRQczIyxw2w3DxeMRTOSdsY" alt="SQL Project" loading="lazy">
         </div>
         <div class="hw-feature-info">
           <h3>SQL: 50 Real-Time YouTube Analytics Challenges</h3>
@@ -100,7 +100,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
       <span class="hw-feature-badge">New</span>
       <div class="hw-feature-row">
         <div class="hw-feature-icon">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/512px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Excel Project">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/512px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Excel Project" loading="lazy">
         </div>
         <div class="hw-feature-info">
           <h3>Excel: 50 Real-World Formula Challenges</h3>
@@ -125,7 +125,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
       <span class="hw-feature-badge">New</span>
       <div class="hw-feature-row">
         <div class="hw-feature-icon">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/512px-Python-logo-notext.svg.png" alt="Python Project">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/512px-Python-logo-notext.svg.png" alt="Python Project" loading="lazy">
         </div>
         <div class="hw-feature-info">
           <h3>Python: 50 Hands-On Coding Challenges</h3>
@@ -149,7 +149,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     <div class="hw-grid">
       <a class="hw-card" href="/cheatsheet/">
         <div class="hw-card-inner">
-          <div class="hw-card-icon"><img src="/assets/images/cheatsheet-icon.svg" alt="All"></div>
+          <div class="hw-card-icon"><img src="/assets/images/cheatsheet-icon.svg" alt="All" loading="lazy"></div>
           <h3>All Cheatsheets</h3>
         </div>
       </a>
@@ -163,7 +163,7 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
       {% for post in site.posts %}
       <a class="hw-card" href="{{ post.url }}">
         <div class="hw-card-inner">
-          <div class="hw-card-icon"><img src="/assets/images/blog-icon.svg" alt="Blog"></div>
+          <div class="hw-card-icon"><img src="/assets/images/blog-icon.svg" alt="Blog" loading="lazy"></div>
           <h3>{{ post.title }}</h3>
         </div>
       </a>

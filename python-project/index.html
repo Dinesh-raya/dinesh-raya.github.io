@@ -117,7 +117,7 @@ description: Solve 50 hands-on Python challenges - from variables and loops to P
       searchInput.addEventListener('input', function() { render(this.value); });
     })
     .catch(function(err) {
-      container.innerHTML = '<div class="result-error">Failed to load problems: ' + err.message + '</div>';
+      container.innerHTML = '<div class="result-error">Failed to load problems: ' + escapeHtml(err.message) + '</div>';
     });
 })();
 </script>
