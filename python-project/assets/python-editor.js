@@ -66,11 +66,18 @@
         if (!problem) { showError('Problem #' + id + ' not found.'); return; }
         window.__currentProblem = problem;
         renderProblem(problem);
+        _.initProblemNav({ url: '/python-project/problems.json', onSwitch: window.switchProblem });
       })
       .catch(function(err) {
         showError('Failed to load problem data: ' + err.message);
       });
   }
+
+  window.switchProblem = function(id, problem) {
+    if (editor) { editor.toTextArea(); editor = null; }
+    window.__currentProblem = problem;
+    renderProblem(problem);
+  };
 
   function runPython() {
     if (!pyodide || !editor) return;

@@ -1116,6 +1116,87 @@ body .solve-page .container {
   .data-grid th, .data-grid td { padding: 2px 4px; }
 }
 
+/* ========== 14b. PROBLEM NAVIGATION ========== */
+
+.problem-nav {
+  margin-bottom: var(--space-md);
+}
+.pn-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pn-row input {
+  flex: 1;
+  min-width: 120px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+  font-family: inherit;
+}
+.pn-row input:focus { border-color: var(--color-accent); }
+.pn-row select {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  outline: none;
+  font-family: inherit;
+}
+.pn-count {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.pn-btn {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: var(--text-base);
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+  transition: border-color 0.15s;
+}
+.pn-btn:hover { border-color: var(--color-accent); }
+.pn-btn:disabled { opacity: 0.4; cursor: default; }
+
+.pn-list {
+  margin-top: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  display: none;
+}
+.pn-list:not(:empty) { display: block; }
+.pn-list .pl-item {
+  padding: 8px 12px;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-border-light);
+  transition: background 0.1s;
+}
+.pn-list .pl-item:last-child { border-bottom: none; }
+.pn-list .pl-item:hover { background: var(--color-surface-alt); }
+.pn-list .pl-item.active { background: var(--color-accent-ring); font-weight: var(--weight-semibold); }
+
+@media (max-width: 640px) {
+  .pn-row input { min-width: 80px; font-size: 12px; }
+  .pn-btn { padding: 4px 8px; font-size: 14px; }
+}
+
 /* ========== 19. SKELETON LOADING ========== */
 @keyframes shimmer {
   0% { background-position: -200% 0; }

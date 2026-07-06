@@ -104,21 +104,21 @@
   
     
     
-  {"title":"Solve Excel Problem","url":"/excel-project/solve/","content":"Back to Questions Solution Data Loading... Hint Expected Output: Explanation: Solution Formula Copy Code Reset Mark Solved Formula Editor Initializing... Evaluate &raquo;","type":"page"},
+  {"title":"Solve Excel Problem","url":"/excel-project/solve/","content":"All - / - ← 🎲 → Back to Questions Solution Data Loading... Hint Expected Output: Explanation: Solution Formula Copy Code Reset Mark Solved Formula Editor Initializing... Evaluate &raquo;","type":"page"},
     
   
 
   
     
     
-  {"title":"Solve SQL Problem","url":"/sql-project/solve/","content":"Back to Questions Solution Tables: Uses SQLite for in-browser validation. Syntax may differ in PostgreSQL, BigQuery, or Snowflake (e.g., date functions, string concatenation). Loading... Hint Input: Output: Explanation: Solution SQL Query Copy Code Reset Mark Solved SQL Editor Initializing... Run SQL &raquo;","type":"page"},
+  {"title":"Solve SQL Problem","url":"/sql-project/solve/","content":"All - / - ← 🎲 → Back to Questions Solution Tables: Uses SQLite for in-browser validation. Syntax may differ in PostgreSQL, BigQuery, or Snowflake (e.g., date functions, string concatenation). Loading... Hint Input: Output: Explanation: Solution SQL Query Copy Code Reset Mark Solved SQL Editor Initializing... Run SQL &raquo;","type":"page"},
     
   
 
   
     
     
-  {"title":"Solve Python Problem","url":"/python-project/solve/","content":"Back to Questions Solution Setup Code Hint Expected Output: Explanation: Solution Code Copy Code Reset Mark Solved Python Editor Initializing Python... Run &raquo;","type":"page"},
+  {"title":"Solve Python Problem","url":"/python-project/solve/","content":"All - / - ← 🎲 → Back to Questions Solution Setup Code Hint Expected Output: Explanation: Solution Code Copy Code Reset Mark Solved Python Editor Initializing Python... Run &raquo;","type":"page"},
     
   
 
