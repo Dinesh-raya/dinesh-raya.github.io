@@ -95,6 +95,31 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
   </div>
 
   <div class="hw-section">
+    <h2 class="hw-section-title">Featured</h2>
+    <a class="hw-feature-card" href="/excel-project/" style="margin-top: 12px;">
+      <span class="hw-feature-badge">New</span>
+      <div class="hw-feature-row">
+        <div class="hw-feature-icon">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/512px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Excel Project">
+        </div>
+        <div class="hw-feature-info">
+          <h3>Excel: 50 Real-World Formula Challenges</h3>
+          <p>Solve practical Excel problems using real datasets — SUM, VLOOKUP, INDEX-MATCH, and more. Interactive editor with instant validation.</p>
+        </div>
+        <div class="hw-ring-wrap">
+          <div class="hw-ring" id="hwExcelRing">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <circle class="hw-ring-bg" cx="26" cy="26" r="22"></circle>
+              <circle class="hw-ring-fg" id="hwExcelRingFg" cx="26" cy="26" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"></circle>
+            </svg>
+            <span class="hw-ring-label" id="hwExcelRingLabel">0%</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="hw-section">
     <h2 class="hw-section-title">Cheatsheets</h2>
     <div class="hw-grid">
       <a class="hw-card" href="/cheatsheet/">
@@ -143,5 +168,24 @@ description: RAYA — free cheatsheets and tutorials for Excel, Power BI, Tablea
     ring.setAttribute('stroke-dashoffset', offset);
     label.textContent = pct + '%';
   }
+
+  var excelSolved = {};
+  try { var es = localStorage.getItem('excelSolved'); if (es) excelSolved = JSON.parse(es); } catch(e) {}
+  var excelCount = Object.keys(excelSolved).length;
+  var excelTotal = 50;
+  var excelPct = Math.round(excelCount / excelTotal * 100);
+  var excelRing = document.getElementById('hwExcelRingFg');
+  var excelLabel = document.getElementById('hwExcelRingLabel');
+  if (excelRing && excelLabel) {
+    var exCircumference = 2 * Math.PI * 22;
+    var exOffset = exCircumference - (excelPct / 100) * exCircumference;
+    excelRing.setAttribute('stroke-dasharray', exCircumference);
+    excelRing.setAttribute('stroke-dashoffset', exOffset);
+    excelLabel.textContent = excelPct + '%';
+  }
+
+  var solvedTotal = count + excelCount;
+  var solvedEl = document.getElementById('hwSolvedCount');
+  if (solvedEl) solvedEl.textContent = solvedTotal;
 })();
 </script>

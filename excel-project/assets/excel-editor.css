@@ -1,0 +1,48 @@
+/* ============================================
+   Excel Project — Overrides & Additions
+   ============================================ */
+
+.data-grid {
+  font-size: 13px;
+}
+.data-grid th.grid-corner,
+.data-grid th.grid-row-header {
+  background: #f0f0f0;
+  color: #666;
+  font-weight: 600;
+  text-align: center;
+  min-width: 28px;
+}
+.data-grid th.grid-corner {
+  min-width: 20px;
+}
+.data-grid td {
+  min-width: 60px;
+}
+.data-grid-wrap {
+  margin: 8px 0 20px;
+  overflow-x: auto;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg, 8px);
+}
+.result-value {
+  font-size: 1.2rem;
+  padding: 16px;
+  color: var(--color-text, #0f172a);
+  background: var(--color-surface-alt, #f8fafc);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+}
+.result-value strong {
+  font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;
+  font-size: 1.4rem;
+  color: var(--color-accent, #276ef1);
+}
+.editor-container .CodeMirror {
+  height: 40px;
+  font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;
+  font-size: 16px;
+}
+.editor-container .CodeMirror-gutter-wrapper {
+  display: none;
+}

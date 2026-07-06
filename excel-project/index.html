@@ -1,0 +1,123 @@
+---
+layout: default
+title: Excel Project
+description: Solve 50 real-world Excel formula challenges - from basic SUM to advanced SUMPRODUCT, VLOOKUP, INDEX-MATCH, and more.
+---
+
+<link rel="stylesheet" href="/sql-project/assets/sql-editor.css">
+
+<div class="sql-project-page">
+  <div class="project-container">
+    <div class="hero-section">
+      <div class="hero-icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Microsoft_Excel_2013-2019_logo.svg/512px-Microsoft_Excel_2013-2019_logo.svg.png" alt="Excel Logo">
+      </div>
+      <div class="hero-text">
+        <h1>Excel: 50 Real-World Formula Challenges</h1>
+        <p>Solve practical Excel problems using real datasets — SUM, VLOOKUP, INDEX-MATCH, and more. Interactive editor with instant validation.</p>
+      </div>
+      <div class="h-progress-ring" id="progressRing">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle class="h-ring-bg" cx="32" cy="32" r="28"></circle>
+          <circle class="h-ring-fg" id="ringFg" cx="32" cy="32" r="28" stroke-dasharray="175.93" stroke-dashoffset="175.93"></circle>
+        </svg>
+        <span class="h-ring-label" id="ringLabel">0/50</span>
+      </div>
+    </div>
+
+    <div class="search-row">
+      <input type="text" id="problemSearch" placeholder="Search problems by title, topic, or difficulty" class="search-input">
+      <span id="statsBar" class="stats-bar"></span>
+    </div>
+
+    <div id="problemList">
+      <div class="loading">Loading problems...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var container = document.getElementById('problemList');
+  var searchInput = document.getElementById('problemSearch');
+  var statsBar = document.getElementById('statsBar');
+
+  function escapeHtml(v) {
+    return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  var solved = {};
+  try {
+    var stored = localStorage.getItem('excelSolved');
+    if (stored) solved = JSON.parse(stored);
+  } catch(e) {}
+
+  function updateProgressRing() {
+    var count = Object.keys(solved).length;
+    var total = 50;
+    var circumference = 2 * Math.PI * 28;
+    var offset = circumference - (count / total) * circumference;
+    var fg = document.getElementById('ringFg');
+    var lbl = document.getElementById('ringLabel');
+    if (fg) { fg.setAttribute('stroke-dasharray', circumference); fg.setAttribute('stroke-dashoffset', offset); }
+    if (lbl) lbl.textContent = count + '/' + total;
+  }
+  updateProgressRing();
+
+  fetch('/excel-project/problems.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var problems = data.problems;
+      var categories = data.categories || [];
+
+      var pMap = {};
+      problems.forEach(function(p) { pMap[p.id] = p; });
+
+      function render(filter) {
+        var total = 0, shown = 0, solvedCount = 0;
+        var f = (filter || '').toLowerCase();
+        var html = '';
+        categories.forEach(function(cat) {
+          var catItems = [];
+          cat.ids.forEach(function(id) {
+            var p = pMap[id];
+            if (!p) return;
+            total++;
+            if (f && p.title.toLowerCase().indexOf(f) === -1 && p.topics.join(' ').toLowerCase().indexOf(f) === -1 && p.difficulty.toLowerCase().indexOf(f) === -1) return;
+            shown++;
+            if (solved[id]) solvedCount++;
+            catItems.push({ id: id, p: p });
+          });
+          if (catItems.length === 0) return;
+          html += '<div class="category-block">';
+          html += '<div class="category-header">' + escapeHtml(cat.name) + '</div>';
+          html += '<div class="category-items">';
+          catItems.forEach(function(c) {
+            var isSolved = solved[c.id];
+            html += '<a href="/excel-project/solve?id=' + c.id + '" class="question-item">';
+            html += '<div class="q-status">';
+            if (isSolved) {
+              html += '<svg class="q-solved-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            } else {
+              html += '<svg class="q-unsolved-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>';
+            }
+            html += '</div>';
+            html += '<div class="q-title">' + c.id + '. ' + escapeHtml(c.p.title) + '</div>';
+            html += '<div class="q-solution"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Solution</div>';
+            html += '<div class="q-difficulty"><span class="diff-' + c.p.difficulty.toLowerCase() + '">' + c.p.difficulty + '</span></div>';
+            html += '</a>';
+          });
+          html += '</div></div>';
+        });
+        container.innerHTML = html || '<div class="result-empty result-empty--top">No problems match your search.</div>';
+        statsBar.textContent = solvedCount + '/' + shown + ' solved  ·  ' + shown + ' problems';
+      }
+
+      render('');
+      searchInput.addEventListener('input', function() { render(this.value); });
+    })
+    .catch(function(err) {
+      container.innerHTML = '<div class="result-error">Failed to load problems: ' + err.message + '</div>';
+    });
+})();
+</script>
