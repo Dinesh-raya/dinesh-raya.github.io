@@ -1,0 +1,13 @@
+order_id,product,category,price,quantity,order_date,region
+1001,Widget A,Gadgets,25.00,4,2024-01-15,North
+1002,Widget B,Gadgets,15.50,8,2024-01-16,South
+1003,Widget C,Accessories,45.00,2,2024-01-17,East
+1004,Widget D,Accessories,12.75,6,2024-01-18,West
+1005,Widget A,Gadgets,25.00,3,2024-01-19,North
+1006,Widget E,Gadgets,30.00,5,2024-01-20,South
+1007,Widget F,Accessories,8.50,12,2024-01-21,East
+1008,Widget B,Gadgets,15.50,4,2024-01-22,West
+1009,Widget G,Supplies,100.00,1,2024-01-23,North
+1010,Widget C,Accessories,45.00,3,2024-01-24,South
+1011,Widget H,Supplies,55.00,2,2024-01-25,East
+1012,Widget A,Gadgets,25.00,6,2024-01-26,West

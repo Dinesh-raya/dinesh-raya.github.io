@@ -1,0 +1,11 @@
+comment_id,video_id,channel_id,author_name,text,like_count,published_at
+COM1,V201,C101,DataFan42,Great tutorial! Learned a lot about Python basics.,45,2024-12-02
+COM2,V201,C101,Pythonista99,Can you make a follow-up on OOP?,32,2024-12-03
+COM3,V202,C102,SQLBeginner,Finally understand JOINs after this video,67,2024-11-29
+COM4,V205,C104,MLenthusiast,Very comprehensive ML overview!,89,2024-11-19
+COM5,V208,C104,DeepLearner,The neural network explanation was perfect.,120,2024-11-06
+COM6,V209,C101,WebDev22,This flexbox guide saved my project!,15,2024-11-02
+COM7,V213,C101,Parent123,My kids love this channel!,340,2024-11-29
+COM8,V214,C103,MomOfTwo,Thank you for making educational content!,280,2024-11-21
+COM9,V206,C102,AnalyticsPro,When is part 2 coming out?,18,2024-11-16
+COM10,V203,C101,DataScientist,Already shared this with my team!,55,2024-11-26

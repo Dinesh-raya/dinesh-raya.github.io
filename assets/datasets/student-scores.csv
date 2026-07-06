@@ -1,0 +1,16 @@
+student_id,student_name,subject,score,grade
+1,Alice,Math,85,B
+2,Bob,Math,92,A
+3,Carol,Math,78,C
+4,Dave,Math,95,A
+5,Eve,Math,88,B
+6,Alice,English,90,A
+7,Bob,English,85,B
+8,Carol,English,82,B
+9,Dave,English,88,B
+10,Eve,English,91,A
+11,Alice,Science,88,B
+12,Bob,Science,94,A
+13,Carol,Science,76,C
+14,Dave,Science,91,A
+15,Eve,Science,85,B

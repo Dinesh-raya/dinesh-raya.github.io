@@ -1,0 +1,17 @@
+video_id,channel_id,title,publish_date,definition,duration,privacy_status,embeddable,made_for_kids,caption,upload_status,live_broadcast_content,views,likes,comment_count,comments_disabled
+V201,C101,Getting Started with Python,2024-12-01,hd,1200,public,TRUE,FALSE,TRUE,processed,none,150000,12000,340,FALSE
+V202,C102,SQL Masterclass Part 1,2024-11-28,hd,2400,public,TRUE,FALSE,TRUE,processed,none,89000,8900,156,FALSE
+V203,C101,Data Science 101,2024-11-25,hd,1800,public,TRUE,FALSE,FALSE,processed,none,230000,18500,520,FALSE
+V204,C103,Learn Pandas in 1 Hour,2024-11-20,hd,3600,public,TRUE,FALSE,TRUE,processed,none,67000,5400,89,FALSE
+V205,C104,Machine Learning Basics,2024-11-18,hd,2700,public,TRUE,FALSE,TRUE,processed,none,450000,34000,890,FALSE
+V206,C102,Advanced SQL Queries,2024-11-15,hd,1800,public,TRUE,FALSE,FALSE,processed,upcoming,120000,10200,230,FALSE
+V207,C105,Excel Tips & Tricks,2024-11-10,sd,900,public,TRUE,FALSE,TRUE,processed,none,34000,2800,45,FALSE
+V208,C104,Deep Learning Explained,2024-11-05,hd,2400,public,TRUE,FALSE,TRUE,processed,none,560000,42000,1100,FALSE
+V209,C101,CSS Flexbox Guide,2024-11-01,hd,1500,public,TRUE,FALSE,FALSE,processed,none,98000,7600,180,FALSE
+V210,C103,Power BI Dashboard,2024-10-28,hd,1200,unlisted,TRUE,FALSE,TRUE,processed,none,45000,3800,67,FALSE
+V211,C102,Database Normalization,2024-10-25,hd,2100,public,TRUE,FALSE,TRUE,processed,none,76000,6100,134,FALSE
+V212,C105,Tableau for Beginners,2024-10-20,sd,1800,public,TRUE,FALSE,TRUE,processed,none,28000,2100,34,FALSE
+V213,C101,Kids Learning ABC,2024-11-28,hd,600,public,TRUE,TRUE,TRUE,processed,none,890000,45000,1200,FALSE
+V214,C103,Nursery Rhymes,2024-11-20,hd,900,public,TRUE,TRUE,TRUE,processed,none,1500000,78000,2300,FALSE
+V215,C102,Live Q&A Session,2024-12-05,hd,3600,public,TRUE,FALSE,TRUE,processed,live,50000,4000,120,FALSE
+V216,C105,Weekly Live Stream,2024-12-03,hd,5400,public,TRUE,FALSE,TRUE,processed,live,35000,2800,78,FALSE

@@ -1,0 +1,121 @@
+---
+layout: default
+title: Read Book
+description: Read data analytics books online in your browser.
+---
+
+<style>
+  .reader-wrap { max-width: 1100px; margin: 0 auto; }
+  .reader-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .reader-header h1 { margin: 0; font-size: 1.3rem; flex: 1; min-width: 0; }
+  .reader-back { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.15s; }
+  .reader-back:hover { color: var(--text); }
+  .reader-toolbar { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .reader-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: opacity 0.15s; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: inherit; }
+  .reader-btn:hover { opacity: 0.8; }
+  .reader-btn.download { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .reader-frame { width: 100%; height: calc(100vh - 260px); min-height: 500px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; }
+  .reader-frame embed, .reader-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  .reader-loading { display: flex; align-items: center; justify-content: center; height: calc(100vh - 260px); min-height: 500px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-alt); }
+  .reader-loading .spinner { width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .reader-loading span { margin-left: 12px; color: var(--text-muted); font-size: 0.9rem; }
+
+  .reader-error { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .reader-error h2 { font-size: 1.2rem; margin: 0 0 8px; color: var(--text); }
+
+  @media (max-width: 768px) {
+    .reader-frame, .reader-loading { height: calc(100vh - 300px); min-height: 300px; }
+    .reader-header h1 { font-size: 1rem; }
+  }
+</style>
+
+<div class="reader-wrap">
+  <div class="reader-header">
+    <a href="/resources/" class="reader-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Resources
+    </a>
+    <h1 id="readerTitle">Loading...</h1>
+    <div class="reader-toolbar">
+      <a class="reader-btn download" id="downloadBtn" download>Download PDF</a>
+      <button class="reader-btn" id="fullscreenBtn">Full Screen</button>
+    </div>
+  </div>
+
+  <div id="readerContainer">
+    <div class="reader-loading">
+      <div class="spinner"></div>
+      <span>Loading book...</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var books = {
+    'sql-performance': {
+      title: 'SQL Performance Explained',
+      author: 'Markus Winand',
+      file: '/assets/books/Markus Winand - SQL Performance Explained (2012, Markus Winand (2012)) - libgen.li.pdf'
+    },
+    'python-crash-course': {
+      title: 'Python Crash Course, 3rd Ed',
+      author: 'Eric Matthes',
+      file: '/assets/books/[The BOOK of\u2026 ] Matthes, Eric - Python Crash Course (2023, No Starch Press) - libgen.li.pdf'
+    },
+    'sql-complete-reference': {
+      title: 'SQL: The Complete Reference, 3rd Ed',
+      author: 'James Groff, Paul Weinberg, Andrew J. Oppel',
+      file: '/assets/books/James Groff, Paul Weinberg, Andrew J. Oppel - SQL The Complete Reference, 3rd Edition (2009, McGraw-Hill Osborne Media) - libgen.li.pdf'
+    },
+    'naked-statistics': {
+      title: 'Naked Statistics',
+      author: 'Charles Wheelan',
+      file: '/assets/books/Naked Statistics{Charles Wheelan}(2014, National Geographic Books){112889897} libgen.li.pdf'
+    },
+    'ddia': {
+      title: 'Designing Data-Intensive Applications',
+      author: 'Martin Kleppmann',
+      file: '/assets/books/Martin Kleppmann - Designing Data-Intensive Applications_ The Big Ideas Behind Reliable, Scalable, and Maintainable Systems (2017, O\u2019Reilly Media).pdf'
+    }
+  };
+
+  var params = new URLSearchParams(window.location.search);
+  var bookId = params.get('book');
+  var book = books[bookId];
+
+  var titleEl = document.getElementById('readerTitle');
+  var container = document.getElementById('readerContainer');
+  var downloadBtn = document.getElementById('downloadBtn');
+
+  if (!book) {
+    titleEl.textContent = 'Book not found';
+    container.innerHTML = '<div class="reader-error"><h2>Book not found</h2><p>No book matches the ID "' + escapeHtml(bookId) + '". <a href="/resources/" style="color:var(--accent)">Back to Resources</a>.</p></div>';
+    return;
+  }
+
+  titleEl.textContent = book.title;
+  downloadBtn.href = book.file;
+
+  container.innerHTML = '<div class="reader-frame"><embed src="' + encodeURI(book.file) + '#toolbar=1&navpanes=1" type="application/pdf" /></div>';
+
+  document.getElementById('fullscreenBtn').addEventListener('click', function() {
+    var frame = container.querySelector('.reader-frame');
+    if (!frame) return;
+    if (frame.requestFullscreen) {
+      frame.requestFullscreen();
+    } else if (frame.webkitRequestFullscreen) {
+      frame.webkitRequestFullscreen();
+    } else if (frame.msRequestFullscreen) {
+      frame.msRequestFullscreen();
+    }
+  });
+
+  function escapeHtml(v) {
+    return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+})();
+</script>
