@@ -3,3 +3,4 @@ sql-project/package.json
 sql-project/package-lock.json
 sql-project/verify.js
 sql-project/generate.js
+AGENTS.md
