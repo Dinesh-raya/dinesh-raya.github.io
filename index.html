@@ -686,7 +686,10 @@
   updateRing('hwPythonRingFg', 'hwPythonRingLabel', progress.python.length, 50);
 
   var solvedEl = document.getElementById('hwSolvedCount');
-  if (solvedEl) solvedEl.textContent = progress.sql.length + progress.excel.length + progress.python.length;
+  if (solvedEl) {
+    var total = progress.sql.length + progress.excel.length + progress.python.length;
+    solvedEl.textContent = total || '---';
+  }
 
 })();
 </script>

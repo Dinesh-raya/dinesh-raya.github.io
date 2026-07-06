@@ -2,6 +2,7 @@
   'use strict';
 
   var hf, sheetId, editor;
+  var resultActionsHtml = '<div class="result-actions"><button class="copy-result-btn">Copy Result</button><button class="clear-result-btn">Clear</button></div>';
   var HYPERFORMULA_LIB = typeof HyperFormula !== 'undefined' ? HyperFormula : null;
 
   var _ = __shared;
@@ -18,13 +19,15 @@
       h += '<div class="validation-badge invalid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Incorrect — result doesn\'t match expected</div>';
     }
     if (value === null || value === undefined) {
-      el.innerHTML = h + '<div class="result-empty">Formula evaluated to an empty result.</div>';
+      el.innerHTML = h + '<div class="result-empty">Formula evaluated to an empty result.</div>' + resultActionsHtml;
+      var clearBtn = el.querySelector('.clear-result-btn');
+      if (clearBtn) clearBtn.addEventListener('click', _.showPlaceholder);
       el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
     var display = typeof value === 'string' ? '"' + escapeHtml(value) + '"' : escapeHtml(String(value));
     h += '<div class="result-value">Result: <strong>' + display + '</strong></div>';
-    h += '<button class="copy-result-btn">Copy Result</button>';
+    h += resultActionsHtml;
     el.innerHTML = h;
     var copyBtn = el.querySelector('.copy-result-btn');
     if (copyBtn) {
@@ -32,6 +35,8 @@
         _.copyText(String(value), copyBtn);
       });
     }
+    var clearBtn = el.querySelector('.clear-result-btn');
+    if (clearBtn) clearBtn.addEventListener('click', _.showPlaceholder);
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
@@ -210,7 +215,6 @@
         var problem = data.problems.find(function (p) { return p.id === id; });
         if (!problem) { showError('Problem #' + id + ' not found.'); return; }
         window.__currentProblem = problem;
-        _.saveCardTemplate();
         initHF(problem);
         renderProblem(problem);
         document.getElementById('runBtn').addEventListener('click', runFormula);
@@ -222,22 +226,7 @@
       });
   };
 
-  window.switchProblem = function(id, problem) {
-    var qCard = document.querySelector('.q-card-inner');
-    if (qCard) qCard.classList.add('loading');
-    var statusEl = document.getElementById('editorStatus');
-    if (statusEl) statusEl.textContent = 'Loading...';
-    _.resetCard();
-    if (editor) { editor.toTextArea(); editor = null; }
-    hf = HYPERFORMULA_LIB.buildEmpty({ licenseKey: 'gpl-v3' });
-    hf.addSheet('Sheet1');
-    sheetId = 0;
-    window.__currentProblem = problem;
-    initHF(problem);
-    renderProblem(problem);
-    if (qCard) qCard.classList.remove('loading');
-    if (statusEl) statusEl.textContent = 'Ready';
-  };
+
 
   var toggle = _.toggle;
 

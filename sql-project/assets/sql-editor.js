@@ -2,6 +2,7 @@
   'use strict';
 
   var SQL, db, editor;
+  var resultActionsHtml = '<div class="result-actions"><button class="copy-result-btn">Copy Result</button><button class="clear-result-btn">Clear</button></div>';
 
   var _ = __shared;
   var escapeHtml = _.escapeHtml;
@@ -37,7 +38,9 @@
       h += '<div class="validation-badge invalid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Incorrect — output doesn\'t match expected</div>';
     }
     if (!rows || rows.length === 0) {
-      el.innerHTML = h + '<div class="result-empty">Query executed successfully. No rows returned.</div>';
+      el.innerHTML = h + '<div class="result-empty">Query executed successfully. No rows returned.</div>' + resultActionsHtml;
+      var clearBtn = el.querySelector('.clear-result-btn');
+      if (clearBtn) clearBtn.addEventListener('click', _.showPlaceholder);
       el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       return;
     }
@@ -46,7 +49,7 @@
     });
     h += _.buildTable(columns, formattedRows);
     h += '<div class="result-info">' + rows.length + ' row' + (rows.length !== 1 ? 's' : '') + ' returned</div>';
-    h += '<button class="copy-result-btn">Copy Result</button>';
+    h += resultActionsHtml;
     el.innerHTML = h;
     var table = el.querySelector('.data-table');
     if (table) {
@@ -64,6 +67,8 @@
         _.copyText(text, copyBtn);
       });
     }
+    var clearBtn = el.querySelector('.clear-result-btn');
+    if (clearBtn) clearBtn.addEventListener('click', _.showPlaceholder);
     el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
@@ -236,7 +241,6 @@
           if (!problem) { showError('Problem #' + id + ' not found.'); return; }
           window.__currentProblem = problem;
           window.__masterSchema = data.schema || {};
-          _.saveCardTemplate();
           initDB(problem);
           renderProblem(problem, window.__masterSchema);
           document.getElementById('runBtn').addEventListener('click', runQuery);
@@ -373,22 +377,6 @@
     });
     _.showPlaceholder();
   }
-
-  window.switchProblem = function(id, problem) {
-    var qCard = document.querySelector('.q-card-inner');
-    if (qCard) qCard.classList.add('loading');
-    var statusEl = document.getElementById('editorStatus');
-    if (statusEl) statusEl.textContent = 'Loading...';
-    _.resetCard();
-    if (editor) { editor.toTextArea(); editor = null; }
-    try { db.close(); } catch(e) {}
-    db = new SQL.Database();
-    window.__currentProblem = problem;
-    initDB(problem);
-    renderProblem(problem, window.__masterSchema || {});
-    if (qCard) qCard.classList.remove('loading');
-    if (statusEl) statusEl.textContent = 'Ready';
-  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', window.initSQLProject);

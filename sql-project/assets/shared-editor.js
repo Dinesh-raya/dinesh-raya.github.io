@@ -215,21 +215,6 @@
     });
   };
 
-  S.saveCardTemplate = function() {
-    var el = document.querySelector('.q-card-inner');
-    if (el && !el.getAttribute('data-template')) {
-      el.setAttribute('data-template', el.innerHTML);
-    }
-  };
-
-  S.resetCard = function() {
-    var el = document.querySelector('.q-card-inner');
-    if (el) {
-      var tpl = el.getAttribute('data-template');
-      if (tpl) { el.innerHTML = tpl; }
-    }
-  };
-
   S.showPlaceholder = function () {
     var el = document.getElementById('resultArea');
     if (!el) return;
