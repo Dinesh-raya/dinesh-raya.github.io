@@ -483,10 +483,10 @@
           searchResults.innerHTML = results.slice(0, 12).map(function(r) {
             var doc = docs[r.ref];
             if (!doc) return '';
-            var content = stripHTML((doc.content || '').substring(0, 300));
+            var content = doc.content || '';
             var idx = content.toLowerCase().indexOf(query.toLowerCase());
-            var start = idx > 30 ? idx - 30 : 0;
-            var excerpt = content.substring(start, start + 120);
+            var start = idx > 40 ? idx - 40 : 0;
+            var excerpt = content.substring(start, start + 160);
             return '<li><a href="' + doc.url + '"><div class="result-title">' + doc.title + '</div><div class="result-excerpt">' + stripHTML(excerpt) + '</div></a></li>';
           }).join('');
         } catch (e) {
@@ -507,7 +507,7 @@
           var items = [];
           data.forEach(function(d, i) {
             if (d.title && d.url) {
-              var item = { title: d.title, url: d.url, content: (d.content || '').substring(0, 500) };
+              var item = { title: d.title, url: d.url, content: d.content || '' };
               items.push(item);
               docs[i] = item;
             }
