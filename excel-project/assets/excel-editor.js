@@ -76,12 +76,18 @@
     return h;
   }
 
+  var hfRebuild = function () {
+    if (!hf) return;
+    if (typeof hf.rebuildAndRecalculate === 'function') hf.rebuildAndRecalculate();
+    else if (typeof hf.rebuild === 'function') hf.rebuild();
+  };
+
   function initHF(problem) {
     if (!HYPERFORMULA_LIB) { showError('HyperFormula library not loaded.'); return false; }
     hf = HYPERFORMULA_LIB.buildEmpty();
-    sheetId = hf.addSheet('Sheet1');
+    hf.addSheet('Sheet1');
+    sheetId = 0;
     var cellData = problem.cell_data || {};
-    var contents = {};
     Object.keys(cellData).forEach(function(ref) {
       var m = ref.match(/^([A-Z]+)(\d+)$/);
       if (!m) return;
@@ -91,7 +97,6 @@
       }
       col--;
       var row = parseInt(m[2], 10) - 1;
-      contents[ref] = cellData[ref];
       try {
         hf.setCellContents({ sheet: sheetId, row: row, col: col }, cellData[ref]);
       } catch(e) {}
@@ -111,7 +116,7 @@
     var row = parseInt(m[2], 10) - 1;
     try {
       hf.setCellContents({ sheet: sheetId, row: row, col: col }, formula);
-      hf.rebuild();
+      hfRebuild();
       var val = hf.getCellValue({ sheet: sheetId, row: row, col: col });
       if (val === undefined || val === null) return null;
       if (typeof val === 'object' && val !== null) {
