@@ -279,6 +279,14 @@
       var searchInput = document.getElementById('problemSearch');
       if (searchInput) searchInput.addEventListener('input', applyFilters);
       if (diffFilter) diffFilter.addEventListener('change', applyFilters);
+
+      document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter') {
+          e.preventDefault();
+          var nextBtn = document.getElementById('nextBtn');
+          if (nextBtn) nextBtn.click();
+        }
+      });
     });
 
     navInstance = state;
