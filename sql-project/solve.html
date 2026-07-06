@@ -13,13 +13,13 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
       <div class="q-card">
         <div class="q-card-inner">
           <a href="/sql-project/" class="back-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             Back to Questions
           </a>
 
           <div class="q-title-row">
             <h1 id="problemTitle"></h1>
-            <button class="solution-btn" id="toggleSolution">Solution</button>
+            <button class="solution-btn" id="toggleSolution" aria-expanded="false" aria-controls="solutionBox">Solution</button>
           </div>
 
           <div class="meta-row">
@@ -34,11 +34,11 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
           <div class="description-text" id="problemDescription"></div>
 
           <div class="hint-details">
-            <div class="hint-summary" id="hintToggle">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+            <button class="hint-summary" id="hintToggle" aria-expanded="false" aria-controls="hintContent">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
               Hint
-            </div>
-            <div class="hint-content" id="hintContent" style="display:none;">
+            </button>
+            <div class="hint-content" id="hintContent" hidden>
               <div class="hint-tip" id="hintText"></div>
               <div class="sub-label">Input:</div>
               <div class="ascii-box" id="sampleDataDisplay"></div>
@@ -49,10 +49,10 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
             </div>
           </div>
 
-          <div class="solution-box" id="solutionBox" style="display:none;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div class="solution-box" id="solutionBox" hidden>
+            <div class="solution-header">
               <strong>Solution SQL Query</strong>
-              <button class="copy-btn" id="copyBtn">Copy Code</button>
+              <button class="copy-btn" id="copyBtn" aria-label="Copy solution SQL to clipboard">Copy Code</button>
             </div>
             <pre id="solutionSQL"></pre>
           </div>
@@ -64,11 +64,11 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
       <div class="editor-section">
         <div class="editor-toolbar">
           <span class="editor-label">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"></path></svg>
             SQL Editor
           </span>
           <span class="editor-status" id="editorStatus">Initializing...</span>
-          <button class="run-btn" id="runBtn">Run SQL &raquo;</button>
+          <button class="run-btn" id="runBtn" aria-label="Execute SQL query">Run SQL &raquo;</button>
         </div>
         <div id="editorContainer" class="editor-container"></div>
       </div>
@@ -79,9 +79,9 @@ description: Interactive SQL editor with live query execution using SQL.js (brow
     </div>
   </div>
 
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;">
+  <div class="solve-footer">
     <button class="footer-btn" id="resetBtn">Reset</button>
-    <button class="footer-btn solved-btn" id="markSolvedBtn">Mark Solved</button>
+    <button class="footer-btn" id="markSolvedBtn">Mark Solved</button>
   </div>
 </div>
 

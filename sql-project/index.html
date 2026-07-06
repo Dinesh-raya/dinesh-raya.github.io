@@ -17,7 +17,7 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
     </div>
 
     <div class="search-row">
-      <input type="text" id="problemSearch" placeholder="Search problems..." class="search-input">
+      <input type="text" id="problemSearch" placeholder="Search problems by title, topic, or difficulty" class="search-input">
       <span id="statsBar" class="stats-bar"></span>
     </div>
 
@@ -107,12 +107,12 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
           html += '<div class="category-items">';
           catItems.forEach(function(c) {
             var isSolved = solved[c.id];
-            html += '<a href="/sql-project/solve?id=' + c.id + '" class="question-item' + (isSolved ? ' solved' : '') + '">';
+            html += '<a href="/sql-project/solve?id=' + c.id + '" class="question-item">';
             html += '<div class="q-status">';
             if (isSolved) {
-              html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+              html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color:#10b981"><polyline points="20 6 9 17 4 12"></polyline></svg>';
             } else {
-              html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg>';
+              html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#94a3b8"><circle cx="12" cy="12" r="10"></circle></svg>';
             }
             html += '</div>';
             html += '<div class="q-title">' + c.id + '. ' + escapeHtml(c.p.title) + '</div>';
@@ -123,7 +123,7 @@ description: Solve 50 real-time YouTube Analytics SQL challenges - from basic SE
           html += '</div></div>';
         });
         container.innerHTML = html || '<div class="result-empty" style="margin-top:40px;">No problems match your search.</div>';
-        statsBar.textContent = solvedCount + '/' + shown + ' solved  \u00B7  ' + shown + ' problems';
+        statsBar.textContent = solvedCount + '/' + shown + ' solved  ·  ' + shown + ' problems';
       }
 
       render('');

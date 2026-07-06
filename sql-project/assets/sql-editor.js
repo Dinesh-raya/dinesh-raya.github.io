@@ -12,7 +12,7 @@
   }
 
   function formatValue(v) {
-    if (v === null || v === undefined) return '<span style="color:#94a3b8">NULL</span>';
+    if (v === null || v === undefined) return '<span class="null-value">NULL</span>';
     if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE';
     return escapeHtml(v);
   }
@@ -201,6 +201,19 @@
     });
   };
 
+  function toggle(trigger, target, expandedLabel, collapsedLabel) {
+    var hidden = target.hasAttribute('hidden');
+    if (hidden) {
+      target.removeAttribute('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
+      if (expandedLabel) trigger.textContent = expandedLabel;
+    } else {
+      target.setAttribute('hidden', '');
+      trigger.setAttribute('aria-expanded', 'false');
+      if (collapsedLabel) trigger.textContent = collapsedLabel;
+    }
+  }
+
   function renderProblem(problem, masterSchema) {
     document.getElementById('problemTitle').textContent = problem.id + '. ' + problem.title;
 
@@ -212,10 +225,8 @@
 
     document.getElementById('problemDescription').textContent = problem.description;
 
-    // Render schema as ASCII
     document.getElementById('schemaDisplay').innerHTML = '<pre>' + escapeHtml(renderSchemaAscii(problem.tables, masterSchema)) + '</pre>';
 
-    // Hint
     var hintEl = document.getElementById('hintText');
     if (problem.hint) {
       hintEl.innerHTML = '<strong>Tip:</strong> ' + escapeHtml(problem.hint);
@@ -223,7 +234,6 @@
       hintEl.style.display = 'none';
     }
 
-    // Render sample data and expected output in hint content
     var sampleData = getSampleData(problem);
     var sampleLines = [];
     problem.tables.forEach(function(tName) {
@@ -243,12 +253,10 @@
       document.getElementById('explanationText').textContent = problem.explanation;
     }
 
-    // Solution
     if (problem.solution) {
       document.getElementById('solutionSQL').textContent = problem.solution;
     }
 
-    // Init CodeMirror
     if (typeof CodeMirror !== 'undefined') {
       editor = CodeMirror(document.getElementById('editorContainer'), {
         value: 'SELECT * FROM ' + (problem.tables[0] || '') + ';',
@@ -262,43 +270,30 @@
       });
     } else {
       var ta = document.createElement('textarea');
-      ta.style.width = '100%';
-      ta.style.height = '120px';
-      ta.style.padding = '10px';
-      ta.style.fontFamily = 'monospace';
-      ta.style.fontSize = '14px';
-      ta.style.border = 'none';
-      ta.style.resize = 'vertical';
+      ta.style.cssText = 'width:100%;height:120px;padding:10px;font-family:monospace;font-size:14px;border:none;resize:vertical;';
       ta.value = 'SELECT * FROM ' + (problem.tables[0] || '') + ';';
       document.getElementById('editorContainer').appendChild(ta);
       editor = ta;
     }
 
-    // Event listeners
     document.getElementById('runBtn').addEventListener('click', runQuery);
-
     document.getElementById('resetBtn').addEventListener('click', resetDB);
 
-    // Hint toggle
     var hintToggle = document.getElementById('hintToggle');
     var hintContent = document.getElementById('hintContent');
     hintToggle.addEventListener('click', function () {
-      var hidden = hintContent.style.display === 'none';
-      hintContent.style.display = hidden ? 'block' : 'none';
-      hintToggle.classList.toggle('open', hidden);
+      toggle(hintToggle, hintContent, null, null);
+      hintToggle.classList.toggle('open', !hintContent.hasAttribute('hidden'));
     });
 
-    // Solution toggle (green button)
     var solutionBtn = document.getElementById('toggleSolution');
     var solutionBox = document.getElementById('solutionBox');
     solutionBtn.addEventListener('click', function () {
-      var hidden = solutionBox.style.display === 'none';
-      solutionBox.style.display = hidden ? 'block' : 'none';
-      solutionBtn.textContent = hidden ? 'Hide Solution' : 'Solution';
-      solutionBtn.style.background = hidden ? '#dc2626' : '#22c55e';
+      var hidden = !solutionBox.hasAttribute('hidden');
+      toggle(solutionBtn, solutionBox, 'Hide Solution', 'Solution');
+      solutionBtn.classList.toggle('hide', !hidden);
     });
 
-    // Copy button
     var copyBtn = document.getElementById('copyBtn');
     if (copyBtn) {
       copyBtn.addEventListener('click', function () {
@@ -311,6 +306,7 @@
         } else {
           var ta = document.createElement('textarea');
           ta.value = code;
+          ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
           document.body.appendChild(ta);
           ta.select();
           document.execCommand('copy');
@@ -321,7 +317,6 @@
       });
     }
 
-    // Mark solved
     var markBtn = document.getElementById('markSolvedBtn');
     if (markBtn) {
       var solved = {};
@@ -331,8 +326,15 @@
         try {
           var s = {};
           var st = localStorage.getItem('sqlSolved'); if (st) s = JSON.parse(st);
-          if (s[problem.id]) { delete s[problem.id]; markBtn.textContent = 'Mark Solved'; markBtn.classList.remove('completed'); }
-          else { s[problem.id] = true; markBtn.textContent = '\u2713 Solved'; markBtn.classList.add('completed'); }
+          if (s[problem.id]) {
+            delete s[problem.id];
+            markBtn.textContent = 'Mark Solved';
+            markBtn.classList.remove('completed');
+          } else {
+            s[problem.id] = true;
+            markBtn.textContent = '\u2713 Solved';
+            markBtn.classList.add('completed');
+          }
           localStorage.setItem('sqlSolved', JSON.stringify(s));
         } catch(e) {}
       });
