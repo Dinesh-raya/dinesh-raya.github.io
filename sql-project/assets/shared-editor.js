@@ -91,6 +91,8 @@
     });
   };
 
+  var editors = [];
+
   S.getCodeTheme = function () {
     return document.documentElement.classList.contains('dark') ? 'material' : 'default';
   };
@@ -113,6 +115,9 @@
 
   S.syncCodeTheme = function () {
     var theme = S.getCodeTheme();
+    if (theme === 'material') {
+      S.loadCodeThemeCSS();
+    }
     editors.forEach(function (cm) {
       if (cm.setOption) cm.setOption('theme', theme);
     });
