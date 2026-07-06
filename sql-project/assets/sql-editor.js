@@ -3,13 +3,10 @@
 
   var SQL, db, editor;
 
-  function escapeHtml(v) {
-    if (v === null || v === undefined) return 'NULL';
-    return String(v)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  }
+  var _ = __shared;
+  var escapeHtml = _.escapeHtml;
+  var showError = _.showError;
+  var toggle = _.toggle;
 
   function arraysEqual(a, b) {
     if (a.length !== b.length) return false;
@@ -28,11 +25,7 @@
     return escapeHtml(v);
   }
 
-  function showError(msg) {
-    var el = document.getElementById('resultArea');
-    if (!el) return;
-    el.innerHTML = '<div class="result-error">' + escapeHtml(msg) + '</div>';
-  }
+  var showError = _.showError;
 
   function showResult(columns, rows, valid) {
     var el = document.getElementById('resultArea');
@@ -241,18 +234,7 @@
     });
   };
 
-  function toggle(trigger, target, expandedLabel, collapsedLabel) {
-    var hidden = target.hasAttribute('hidden');
-    if (hidden) {
-      target.removeAttribute('hidden');
-      trigger.setAttribute('aria-expanded', 'true');
-      if (expandedLabel) trigger.textContent = expandedLabel;
-    } else {
-      target.setAttribute('hidden', '');
-      trigger.setAttribute('aria-expanded', 'false');
-      if (collapsedLabel) trigger.textContent = collapsedLabel;
-    }
-  }
+  var toggle = _.toggle;
 
   function renderProblem(problem, masterSchema) {
     document.getElementById('problemTitle').textContent = problem.id + '. ' + problem.title;
@@ -334,51 +316,9 @@
       solutionBtn.classList.toggle('hide', !hidden);
     });
 
-    var copyBtn = document.getElementById('copyBtn');
-    if (copyBtn) {
-      copyBtn.addEventListener('click', function () {
-        var code = document.getElementById('solutionSQL').textContent;
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(code).then(function () {
-            copyBtn.textContent = 'Copied!';
-            setTimeout(function () { copyBtn.textContent = 'Copy Code'; }, 2000);
-          });
-        } else {
-          var ta = document.createElement('textarea');
-          ta.value = code;
-          ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          copyBtn.textContent = 'Copied!';
-          setTimeout(function () { copyBtn.textContent = 'Copy Code'; }, 2000);
-        }
-      });
-    }
+    _.setupCopyBtn();
 
-    var markBtn = document.getElementById('markSolvedBtn');
-    if (markBtn) {
-      var solved = {};
-      try { var st = localStorage.getItem('sqlSolved'); if (st) solved = JSON.parse(st); } catch(e) {}
-      if (solved[problem.id]) { markBtn.textContent = '\u2713 Solved'; markBtn.classList.add('completed'); }
-      markBtn.addEventListener('click', function () {
-        try {
-          var s = {};
-          var st = localStorage.getItem('sqlSolved'); if (st) s = JSON.parse(st);
-          if (s[problem.id]) {
-            delete s[problem.id];
-            markBtn.textContent = 'Mark Solved';
-            markBtn.classList.remove('completed');
-          } else {
-            s[problem.id] = true;
-            markBtn.textContent = '\u2713 Solved';
-            markBtn.classList.add('completed');
-          }
-          localStorage.setItem('sqlSolved', JSON.stringify(s));
-        } catch(e) {}
-      });
-    }
+    _.setupSolvedBtn('sqlSolved', problem.id);
 
     document.title = '#' + problem.id + ' ' + problem.title + ' | SQL Project';
   }
