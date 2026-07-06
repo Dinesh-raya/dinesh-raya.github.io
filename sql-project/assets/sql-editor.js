@@ -226,6 +226,7 @@
           if (!problem) { showError('Problem #' + id + ' not found.'); return; }
           window.__currentProblem = problem;
           window.__masterSchema = data.schema || {};
+          _.saveCardTemplate();
           initDB(problem);
           renderProblem(problem, window.__masterSchema);
           _.initProblemNav({ url: '/sql-project/problems.json', onSwitch: window.switchProblem });
@@ -366,6 +367,7 @@
   }
 
   window.switchProblem = function(id, problem) {
+    _.resetCard();
     if (editor) { editor.toTextArea(); editor = null; }
     try { db.close(); } catch(e) {}
     db = new SQL.Database();

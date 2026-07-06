@@ -201,6 +201,7 @@
         var problem = data.problems.find(function (p) { return p.id === id; });
         if (!problem) { showError('Problem #' + id + ' not found.'); return; }
         window.__currentProblem = problem;
+        _.saveCardTemplate();
         initHF(problem);
         renderProblem(problem);
         _.initProblemNav({ url: '/excel-project/problems.json', onSwitch: window.switchProblem });
@@ -212,6 +213,7 @@
   };
 
   window.switchProblem = function(id, problem) {
+    _.resetCard();
     if (editor) { editor.toTextArea(); editor = null; }
     hf = HYPERFORMULA_LIB.buildEmpty({ licenseKey: 'gpl-v3' });
     hf.addSheet('Sheet1');

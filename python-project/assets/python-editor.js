@@ -65,6 +65,7 @@
         var problem = data.problems.find(function(p) { return p.id === id; });
         if (!problem) { showError('Problem #' + id + ' not found.'); return; }
         window.__currentProblem = problem;
+        _.saveCardTemplate();
         renderProblem(problem);
         _.initProblemNav({ url: '/python-project/problems.json', onSwitch: window.switchProblem });
       })
@@ -74,6 +75,7 @@
   }
 
   window.switchProblem = function(id, problem) {
+    _.resetCard();
     if (editor) { editor.toTextArea(); editor = null; }
     window.__currentProblem = problem;
     renderProblem(problem);
